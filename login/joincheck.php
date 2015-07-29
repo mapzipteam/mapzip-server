@@ -21,7 +21,7 @@ if(!$result = mysqli_query($conn,$sql)){
 if(joinOK($user_id,$result)){
 	$sql = "INSERT INTO ".USER_TABLE." (userid, username, userpw, created) VALUES ('".$user_id."','".$user_name."','".$user_pw."',now())";
 	if(mysqli_query($conn,$sql)){
-		echo("insert success!\n");
+		echo("join success!\n");
 
 	}
 	else{

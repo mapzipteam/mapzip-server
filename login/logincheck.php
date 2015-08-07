@@ -2,12 +2,19 @@
 
 include("fmysql.php");
 include("mapzip-login-define.php");
-$user_id = $_POST['userid'];
-$user_pw = $_POST['userpw'];
+include("../mapzip-state-define.php");
+
+$value = json_decode(file_get_contents('php://input'), true);
+
+$to_client = array('state'=>NON_KNOWN_ERROR,'login'=>0,'username'=>"");
+
+$user_id = $value['userid'];
+$user_pw = $value['userpw'];
 
 
 if(!$conn = connect_mysqli(MYSQL_IP,MAIN_DB,DB_PASSWORD,USE_DB)){
 	//echo "connnection error!\n";
+	$to_client['state']=DB_CONNECTION_ERROR;
 }
 else{
 //echo "connect success!\n";
@@ -22,19 +29,33 @@ $sql = "SELECT * FROM ".USER_TABLE;
 
 if(!$result = mysqli_query($conn,$sql)){
 	//echo "query fail...\n";
+	$to_client['state']=SQL_QUERY_ERROR;
 }
 
 
 
 if($username = loginOK($user_id,$user_pw,$result)){
-	//echo("login success\n");
+	//echo("login success\n");a
 	//echo "1".iconv("utf-8","euc-kr",$username);
-	echo "1".$username;
+	$to_client['state']=LOGIN_SUCCESS;
+	$to_client['login']=1;
+	$to_client['username']=$username;
+	
+	echo json_encode($to_client);
 	
 }
 else{
 	//echo("login fail...\n");
-	echo "0";
+	if($to_client['state']==NON_KNOWN_ERROR){
+		// 그전에는 오류가 없었다는 의미이니까 로그인 오류를 넣으면 된다
+		$to_client['state']=LOGIN_FAIL;
+	}
+	else{
+		// 그전에 오류가 있는 경우이므로 그대로 출력하면 된다
+	}
+	$to_client['login']=0;
+	echo json_encode($to_client);
+	
 }
 
 function loginOK($id,$pw,$result){

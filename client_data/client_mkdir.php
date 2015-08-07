@@ -1,11 +1,8 @@
 <?php
-//$dirRoot = "http://ljs93kr.cafe24.com/mapzip/client_data";
-//$dir_name = $dirRoot."/client_1";
 
-$dir_name = "./client_3";
+$dir_name = "./client_".$_GET['userid'];
 if(is_dir($dir_name)){
 	echo "folder exist<br>";
-
 }
 else{
 	echo "folder none<br>";

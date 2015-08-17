@@ -11,7 +11,7 @@ $to_client = array('state'=>NON_KNOWN_ERROR,'login'=>0,'username'=>"");
 $user_id = $value['userid'];
 $user_pw = $value['userpw'];
 
-
+$conn;
 if(!$conn = connect_mysqli(MYSQL_IP,MAIN_DB,DB_PASSWORD,USE_DB)){
 	//echo "connnection error!\n";
 	$to_client['state']=DB_CONNECTION_ERROR;
@@ -40,6 +40,28 @@ if($username = loginOK($user_id,$user_pw,$result)){
 	$to_client['state']=LOGIN_SUCCESS;
 	$to_client['login']=1;
 	$to_client['username']=$username;
+
+	$to_client['mapmeta_info']=array();
+
+
+	$sql = "SELECT * FROM ".CLIENT_TABLE.$user_id;
+
+	if(!$result = mysqli_query($conn,$sql)){
+		$to_client['state']=SQL_QUERY_ERROR;
+	}
+	while($row = mysqli_fetch_assoc($result)){
+		if($row['type']==CLIENT_TYPE_MAPMETA){
+			$map_object = new Map_Metainfo;
+			$map_object->title = $row['title'];
+			$map_object->category = $row['category'];
+			$map_object->created = $row['created'];
+			$map_object->hash_tag = $row['hash_tag'];
+			array_push($to_client['mapmeta_info'],$map_object);
+
+		}
+		 
+	}
+
 	
 	echo json_encode($to_client);
 	
@@ -66,6 +88,12 @@ function loginOK($id,$pw,$result){
 		}
 	}
 	return false;
+}
+
+class Map_Metainfo{
+	public $title, $category, $hash_tag, $created;
+
+
 }
 
 ?>

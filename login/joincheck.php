@@ -11,7 +11,7 @@ $to_client = array('state'=>NON_KNOWN_ERROR,'login'=>0,'username'=>"");
 
 
 $user_id = $value['userid'];
-$user_pw = $vaule['userpw'];
+$user_pw = $value['userpw'];
 $user_name = $value['username'];
 
 if(!$conn = connect_mysqli(MYSQL_IP,MAIN_DB,DB_PASSWORD,USE_DB)){
@@ -32,9 +32,21 @@ if(joinOK($user_id,$result)){
 	$sql = "INSERT INTO ".USER_TABLE." (userid, username, userpw, created) VALUES ('".$user_id."','".$user_name."','".$user_pw."',now())";
 	if(mysqli_query($conn,$sql)){
 		//echo("join success!\n");
+		//$sql = "CREATE TABLE ".
+		
+
+		//$sql = "CREATE TABLE mz_mapmeta_".$user_id." ( pid int(11) NOT NULL AUTO_INCREMENT, title varchar(255) NOT NULL, category int(11) NOT NULL, created datetime NOT NULL, PRIMARY KEY(pid));";
+		$sql = "CREATE TABLE ".CLIENT_TABLE.$user_id." ( pid int(11) NOT NULL AUTO_INCREMENT, type int(11) NOT NULL, title varchar(255) , category int(11) , hash_tag text , friend_id varchar(255),  created datetime NOT NULL, PRIMARY KEY(pid));";
+
+		mysqli_query($conn,$sql);
+		$sql = "INSERT INTO ".CLIENT_TABLE.$user_id." (type, title, category, hash_tag, created) VALUES (1, '나만의 지도1',1,'#해#쉬#태#그#맛집',now())";
+		mysqli_query($conn,$sql);
+		$sql = "INSERT INTO ".CLIENT_TABLE.$user_id." (type, title, category, hash_tag, created) VALUES (1, '나만의 지도2',1,'#해#쉬#태#그#맛집',now())";
+		mysqli_query($conn,$sql);
+
 		$to_client['state']=JOIN_SUCCESS;
 		$to_client['join']=1;
-		
+
 		echo json_encode($to_client);
 		
 

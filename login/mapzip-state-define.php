@@ -1,10 +1,10 @@
 <?php
 
 // state define -1~  
-define("NON_KNOWN_ERROR",-1);
+define("NON_KNOWN_ERROR",-1); // 알수없는 에러
 
 // state define 100~ : about Database 
-define("DB_CONNECTION_ERROR",101);
+define("DB_CONNECTION_ERROR",101); // db connection error
 define("SQL_QUERY_ERROR",103); // sql query fail 
 
 // state define 200~ : about Login/Join

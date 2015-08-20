@@ -1,6 +1,6 @@
 <?php
 
-include("fmysql.php");
+include("../fmysql.php");
 include("mapzip-login-define.php");
 include("../mapzip-state-define.php");
 
@@ -52,6 +52,7 @@ if($username = loginOK($user_id,$user_pw,$result)){
 	while($row = mysqli_fetch_assoc($result)){
 		if($row['type']==CLIENT_TYPE_MAPMETA){
 			$map_object = new Map_Metainfo;
+			$map_object->map_id = $row['pid'];
 			$map_object->title = $row['title'];
 			$map_object->category = $row['category'];
 			$map_object->created = $row['created'];
@@ -91,7 +92,7 @@ function loginOK($id,$pw,$result){
 }
 
 class Map_Metainfo{
-	public $title, $category, $hash_tag, $created;
+	public $map_id, $title, $category, $hash_tag, $created;
 
 
 }

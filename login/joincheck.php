@@ -1,5 +1,5 @@
 <?php
-include("fmysql.php");
+include("../fmysql.php");
 include("mapzip-login-define.php");
 include("../mapzip-state-define.php");
 

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 function connect_mysqli($ip,$user,$password,$db){
 	if(!$conn = mysqli_connect($ip,$user,$password)){

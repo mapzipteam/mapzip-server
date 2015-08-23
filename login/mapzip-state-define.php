@@ -14,4 +14,11 @@ define("JOIN_SUCCESS",210); // 회원가입 성공
 define("JOIN_FAIL_ALREADY_ERROR",211); // 이미 가입한 이력이 있음
 define("JOIN_FAIL_INSERT_ERROR",212); // 회원가입자료가 db에 삽입이 안됨 
 
+
+
+// state define 500~ : about map_search
+define("MAP_SEARCH_SUCCESS",501);
+define("MAP_SEARCH_NO_MORE",502);
+define("MAP_SEARCH_FAIL",503);
+
 ?>

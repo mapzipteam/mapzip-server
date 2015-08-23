@@ -10,6 +10,9 @@ $to_client = array('state'=>NON_KNOWN_ERROR);
 $more = $value['more'];
 $target_word = $value['target'];
 
+$contents_count = 3;
+$more *=$contents_count;
+
 if(!$conn = connect_mysqli(MYSQL_IP,MAIN_DB,DB_PASSWORD,USE_DB)){
 	//echo "connnection error!\n";
 	$to_client['state']=DB_CONNECTION_ERROR;
@@ -24,11 +27,22 @@ if(!$result = mysqli_query($conn,$sql)){
 
 $to_client['map_search']=array();
 
+
+
 while($row = mysqli_fetch_assoc($result)){
 	if(strpos($row['hash_tag'], $target_word)==true){
 		// 타겟해시가 포함되어 있다면
+		if($more>0){
+			$more -=1;
+			continue;
+		}
+		if($contents_count<=0){
+			break;
+		}
 		$search_object = SearchInClient($conn,$row['userid'],$row['username'],$target_word);
 		array_push($to_client['map_search'],$search_object);
+
+		$contents_count -= 1;
 
 
 	}
@@ -36,6 +50,12 @@ while($row = mysqli_fetch_assoc($result)){
 
 	}
 
+}
+if($more>0){
+	$to_client['state'] = MAP_SEARCH_NO_MORE;
+}
+else{
+	$to_client['state'] = MAP_SEARCH_SUCCESS;
 }
 
 echo json_encode($to_client);

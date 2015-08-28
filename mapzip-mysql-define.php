@@ -14,4 +14,7 @@ define("CLIENT_TABLE","mz_client_");
 define("CLIENT_TYPE_MAPMETA",1);
 define("CLIENT_TYPE_FRIEND",2);
 
+// mysql - mz_review_***
+define("REVIEW_TABLE","mz_review_");
+
 ?>

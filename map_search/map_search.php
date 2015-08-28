@@ -1,6 +1,6 @@
 <?php
 include("../fmysql.php");
-include("mapzip-mapsearch-define.php");
+include("../mapzip-mysql-define.php");
 include("../mapzip-state-define.php");
 
 $value = json_decode(file_get_contents('php://input'), true);

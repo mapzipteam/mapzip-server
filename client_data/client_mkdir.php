@@ -7,7 +7,7 @@ if(is_dir($dir_name)){
 else{
 	echo "folder none<br>";
 	if(@mkdir($dir_name,0777)){
-		echo "${dir_name} directory created...";
+		echo "{$dir_name} directory created...";
 	}
 	else{
 		echo "directory uncreated...";

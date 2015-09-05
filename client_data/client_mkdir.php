@@ -1,18 +1,24 @@
 <?php
+include("../mapzip-state-define.php");
 
-$dir_name = "./client_".$_GET['userid'];
+$value = json_decode(file_get_contents('php://input'), true);
+
+
+//$dir_name = "./client_".$value['userid']."_".$value['map_id']."_".$value['store_name']."|".$value['store_cx']."|".$value['store_cy'];
+$dir_name = "./client_".$value['userid']."_".$value['map_id']."_".$value['store_id'];
 if(is_dir($dir_name)){
-	echo "folder exist<br>";
+	$to_client['state']=CLIENT_REVIEW_IMAGE_MKDIR_EXIST;
 }
 else{
-	echo "folder none<br>";
+	
 	if(@mkdir($dir_name,0777)){
-		echo "{$dir_name} directory created...";
+		$to_client['state'] = CLIENT_REVIEW_IMAGE_MKDIR_SUCCESS;
 	}
 	else{
-		echo "directory uncreated...";
+		$to_client['state'] = CLIENT_REVIEW_IMAGE_MKDIR_FAIL;
 	}
 }
 
+echo json_encode($to_client);
 
 ?>

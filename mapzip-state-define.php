@@ -28,4 +28,8 @@ define("CLIENT_REVIEW_DATA_ENROLL_FAIL",611); // 리뷰 텍스트 데이터 등�
 define("CLIENT_REVIEW_DATA_ENROLL_EXIST",612); // 리뷰 텍스트 데이터 등록 중복데이터 오류
 define("CLIENT_REVIEW_IMAGE_MKDIR_EXIST",621); // 리뷰 이미지 데이터 디렉토리이름 중복발생
 define("CLIENT_REVIEW_IMAGE_MKDIR_FAIL",622);  // 리뷰 이미지 데이터 생성 실패
+
+// state define 700~ : about client_data/map_meta
+define("CLIENT_REVIEW_META_DOWN_SUCCESS",701); // 가게 위경도, 가게 이름 정보 전달 성공
+define("CLIENT_REVIEW_META_DOWN_EMPTY",711); // 가게 위경도, 가게 이름이 해당 지도에 없음 
 ?>

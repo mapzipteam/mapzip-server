@@ -44,7 +44,7 @@ if(joinOK($user_id,$result)){
 		$sql = "INSERT INTO ".CLIENT_TABLE.$user_id." (type, title, category, hash_tag, created) VALUES (1, '나만의 지도2',1,'#해#쉬#태#그#맛집',now())";
 		mysqli_query($conn,$sql);
 
-		$sql = "CREATE TABLE ".REVIEW_TABLE.$user_id." (pid int(11) NOT NULL AUTO_INCREMENT, map_id int(11) NOT NULL, store_x int(11), store_y int(11), store_name varchar(255), store_address text, store_contact text, review_emotion int(11), review_text text, PRIMARY KEY(pid));";
+		$sql = "CREATE TABLE ".REVIEW_TABLE.$user_id." (pid int(11) NOT NULL AUTO_INCREMENT, map_id int(11) NOT NULL, gu_num int(11) NOT NULL, store_x double, store_y double, store_name varchar(255), store_address text, store_contact text, review_emotion int(11), review_text text, image_num int(11), PRIMARY KEY(pid));";
 		mysqli_query($conn,$sql);
 		
 		$to_client['state']=JOIN_SUCCESS;

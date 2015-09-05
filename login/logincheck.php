@@ -11,7 +11,7 @@ $to_client = array('state'=>NON_KNOWN_ERROR,'login'=>0,'username'=>"");
 $user_id = $value['userid'];
 $user_pw = $value['userpw'];
 
-$conn;
+
 if(!$conn = connect_mysqli(MYSQL_IP,MAIN_DB,DB_PASSWORD,USE_DB)){
 	//echo "connnection error!\n";
 	$to_client['state']=DB_CONNECTION_ERROR;

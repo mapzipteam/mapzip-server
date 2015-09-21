@@ -73,6 +73,7 @@ function SearchInClient($conn,$user_id,$user_name,$target_word){
 		if($row['type']==CLIENT_TYPE_MAPMETA){
 			if(strpos($row['hash_tag'], $target_word)==true){
 				$search_object = new Map_Search;
+				$search_object->user_id = $user_id;
 				$search_object->user_name = $user_name;
 				$search_object->category = $row['category'];			
 				$search_object->hash_tag = $row['hash_tag'];
@@ -85,7 +86,7 @@ function SearchInClient($conn,$user_id,$user_name,$target_word){
 }
 
 class Map_Search{
-	public $user_name, $category, $hash_tag; 
+	public $user_id, $user_name, $category, $hash_tag; 
 }
 
 

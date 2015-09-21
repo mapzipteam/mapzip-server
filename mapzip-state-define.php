@@ -8,7 +8,7 @@ define("DB_CONNECTION_ERROR",101); // db connection error
 define("SQL_QUERY_ERROR",103); // sql query fail 
 
 // state define 200~ : about Login/Join
-define("LOGIN_SUCCESS",200); // 로그인 성공
+define("LOGIN_SUCCESS",200);
 define("LOGIN_FAIL",201); // 로그인 실패
 define("JOIN_SUCCESS",210); // 회원가입 성공
 define("JOIN_FAIL_ALREADY_ERROR",211); // 이미 가입한 이력이 있음
@@ -30,6 +30,8 @@ define("CLIENT_REVIEW_IMAGE_MKDIR_EXIST",621); // 리뷰 이미지 데이터 디
 define("CLIENT_REVIEW_IMAGE_MKDIR_FAIL",622);  // 리뷰 이미지 데이터 생성 실패
 
 // state define 700~ : about client_data/map_meta
-define("CLIENT_REVIEW_META_DOWN_SUCCESS",701); // 가게 위경도, 가게 이름 정보 전달 성공
-define("CLIENT_REVIEW_META_DOWN_EMPTY",711); // 가게 위경도, 가게 이름이 해당 지도에 없음 
+define("CLIENT_REVIEW_META_DOWN_SUCCESS",701); // 가게 위경도, 가게 이름 정보 전달 성공, 로그인 성공 까지
+define("CLIENT_REVIEW_META_DOWN_EMPTY",711); // 가게 위경도, 가게 이름이 해당 지도에 없음
+
+define("CLIENT_REVIEW_DETAIL_DOWN_SUCCESS",702); // map_detail 성공 
 ?>

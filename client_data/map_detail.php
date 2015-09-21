@@ -20,21 +20,27 @@ if(!$result = mysqli_query($conn,$sql)){
 	//echo "query fail...\n";
 	$to_client['state']=SQL_QUERY_ERROR;
 }
+else{
+	// success
+	$to_client['map_detail']=array();
 
-$to_client['map_detail']=array();
-
-while($row = mysqli_fetch_assoc($result)){
-	if($row['pid']==$value['store_id']){
-		$map_object = new Map_Detail;
-		$map_object->store_id = $row['pid'];
-		$map_object->store_address = $row['store_address'];
-		$map_object->store_contact = $row['store_contact'];
-		$map_object->review_emotion = $row['review_emotion'];
-		$map_object->review_text = $row['review_text'];
-		$map_object->image_num = $row['image_num'];
-		array_push($to_client['map_detail'],$map_object);
+	while($row = mysqli_fetch_assoc($result)){
+		if($row['pid']==$value['store_id']){
+			$map_object = new Map_Detail;
+			$map_object->store_id = $row['pid'];
+			$map_object->map_id = $row['map_id'];
+			$map_object->store_name = $row['store_name'];
+			$map_object->store_address = $row['store_address'];
+			$map_object->store_contact = $row['store_contact'];
+			$map_object->review_emotion = $row['review_emotion'];
+			$map_object->review_text = $row['review_text'];
+			$map_object->image_num = $row['image_num'];
+			array_push($to_client['map_detail'],$map_object);
+		}
 	}
+	$to_client['state'] = CLIENT_REVIEW_DETAIL_DOWN_SUCCESS;
 }
+
 
 echo json_encode($to_client);
 

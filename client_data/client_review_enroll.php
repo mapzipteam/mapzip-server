@@ -23,6 +23,9 @@ if(Enroll_OK($conn,$user_id,$value)){
 		$to_client['state'] = $sql;
 	}else{
 		// insert success
+		$sql = "UPDATE ".USER_TABLE." SET total_review = total_review+1 WHERE userid = '{$user_id}'";
+		$result = mysqli_query($conn,$sql);
+		
 		$sql = "SELECT pid FROM ".REVIEW_TABLE.$user_id." WHERE store_x = {$value['store_x']} AND store_y = {$value['store_y']} AND store_name = '{$value['store_name']}'";
 		$result = mysqli_query($conn,$sql);
 		if($row = mysqli_fetch_assoc($result)){
@@ -49,16 +52,19 @@ echo json_encode($to_client);
 
 
 function Enroll_OK($conn,$user_id,$value){
-	// $sql = "SELECT * FROM ".REVIEW_TABLE.$user_id;
-	// if(!$result = mysqli_query($conn,$sql)){
-	// 	$to_client['state'] = $sql;
-	// }
-	// while($row = mysqli_fetch_assoc($result)){
-	// 	if(strcmp($value['store_name'],$row['store_name'])==0 && strcmp($value['store_x'],$row['store_x'])==0 && strcmp($value['store_y'],$row['store_y'])==0){
+	$sql = "SELECT * FROM ".REVIEW_TABLE.$user_id;
+	if(!$result = mysqli_query($conn,$sql)){
+		$to_client['state'] = $sql;
+	}
+	while($row = mysqli_fetch_assoc($result)){
+		if($row['map_id'] != $value['map_id']){
+			continue;
+		}
+		if(strcmp($value['store_name'],$row['store_name'])==0 && strcmp($value['store_x'],$row['store_x'])==0 && strcmp($value['store_y'],$row['store_y'])==0){
 			
-	// 		return false;
-	// 	}
-	// }
+			return false;
+		}
+	}
 	return true;
 
 }

@@ -1,0 +1,133 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>디비정보 삭제하기</title>
+</head>
+<body>
+    <h1>mapzip 유저정보를 삭제하는 페이지입니다</h1>
+    <form id="contact-form" action="delete_user_info.html" method="post">
+        <ul>
+            <li>
+                <label >삭제할 사용자 아이디 : </label>
+                <input type="text" name="target_id"/>
+                <label>(모든유저정보를 삭제할때는 작성하지 말아주세요)</label>
+            </li>
+            <li>
+                <label for="total_delete">모든 유저정보를 삭제하시겠습니까?</label>
+                <input type="checkbox" name="total_delete" value="1"/>
+                
+            </li>
+            <li>
+                <label>비밀번호 : </label>
+                <input type="text" id="password"/>
+                <input type="button" onclick="PassOK()" value="CHECK"/>
+                
+            </li>
+            <li>
+                <input type="hidden" name="do" value="ok" />
+                <input type="submit" value="submit" id="sub" disabled="disabled"/>
+            </li>
+        </ul>
+
+    </form>
+
+    <script>
+        function PassOK() {
+            var pass = document.getElementById("password").value;
+            if (pass == "mapzip") {
+                var sub = document.getElementById("sub");
+                sub.disabled = false;
+                alert("인증성공하셨습니다");
+            }
+            else {
+                alert("비밀번호가 틀립니다");
+            }
+        }
+    </script>
+
+    <?php
+    if($_POST['do']=="ok"){
+        include("../fmysql.php");
+    include("../mapzip-mysql-define.php");
+    if(!$conn = connect_mysqli(MYSQL_IP,MAIN_DB,DB_PASSWORD,USE_DB)){
+    //echo "connnection error!\n";
+        echo "connect mysql fail..<br>";
+    }
+    else{
+        echo "connect mysql success!<br>";
+    }
+    $sql = "SELECT * FROM ".USER_TABLE;
+    if(!$result = mysqli_query($conn,$sql)){
+    //echo "query fail...\n";
+        echo "user table query fail..<br>";
+    }
+    
+    if($_POST['total_delete'] == 1){
+        // 전체 정보 삭제
+    echo "total delete <br>";
+    while($row = mysqli_fetch_assoc($result)){
+        $sql = "DELETE FROM ".USER_TABLE." WHERE userid = '{$row['userid']}' LIMIT 1";
+        if($var = mysqli_query($conn,$sql)){
+            echo "SUCCESS : delete {$row['userid']} from user_info table ..<br>";
+        }
+        else{
+            echo "FAIL : delete {$row['userid']} from user_info table ..<br>";
+        }
+        $sql = "DROP TABLE ".CLIENT_TABLE.$row['userid'];
+        if($var = mysqli_query($conn,$sql)){
+        //echo "query fail...\n";
+            echo "SUCCESS : drop table {$row['userid']} from mz_client...<br>";
+        }
+        else{
+            echo "FAIL : drop table {$row['userid']} from mz_client..<br>";
+        }
+        $sql = "DROP TABLE ".REVIEW_TABLE.$row['userid'];
+        if($var = mysqli_query($conn,$sql)){
+        //echo "query fail...\n";
+            echo "SUCCESS : drop table {$row['userid']} from mz_review...<br>";
+        }
+        else{
+            echo "FAIL : drop table {$row['userid']} from mz_review..<br>";
+        }
+
+    }
+    
+    }
+    else{
+        // 특정 아이디 관련 테이블들만 삭제
+            echo "target delete<br>";
+    echo "userid = {$_POST['target_id']}<br>";
+    $sql = "DELETE FROM ".USER_TABLE." WHERE userid = '{$_POST['target_id']}' LIMIT 1";
+    if($result = mysqli_query($conn,$sql)){
+        echo "SUCCESS : delete {$_POST['target_id']} from user_info table ..<br>";
+    }
+    else{
+        echo "FAIL : delete {$_POST['target_id']} from user_info table ..<br>";
+    }
+    $sql = "DROP TABLE ".CLIENT_TABLE.$_POST['target_id'];
+    if($result = mysqli_query($conn,$sql)){
+    //echo "query fail...\n";
+        echo "SUCCESS : drop table {$_POST['target_id']} from mz_client...<br>";
+    }
+    else{
+        echo "FAIL : drop table {$_POST['target_id']} from mz_client..<br>";
+    }
+    $sql = "DROP TABLE ".REVIEW_TABLE.$_POST['target_id'];
+    if($result = mysqli_query($conn,$sql)){
+    //echo "query fail...\n";
+        echo "SUCCESS : drop table {$_POST['target_id']} from mz_review...<br>";
+    }
+    else{
+        echo "FAIL : drop table {$_POST['target_id']} from mz_review..<br>";
+    }
+
+    }
+
+    }
+    
+    ?>
+
+</body>
+</html>

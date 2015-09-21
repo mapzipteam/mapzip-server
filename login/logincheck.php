@@ -6,7 +6,7 @@ include("../mapzip-state-define.php");
 
 $value = json_decode(file_get_contents('php://input'), true);
 
-$to_client = array('state'=>NON_KNOWN_ERROR,'login'=>0,'username'=>"");
+$to_client = array('state'=>NON_KNOWN_ERROR);
 
 $user_id = $value['userid'];
 $user_pw = $value['userpw'];
@@ -37,10 +37,9 @@ if(!$result = mysqli_query($conn,$sql)){
 if($username = loginOK($user_id,$user_pw,$result)){
 	//echo("login success\n");a
 	//echo "1".iconv("utf-8","euc-kr",$username);
-	$to_client['state']=LOGIN_SUCCESS;
-	$to_client['login']=1;
+	
 	$to_client['username']=$username;
-
+	$to_client['state'] = LOGIN_SUCCESS;
 	$to_client['mapmeta_info']=array();
 
 
@@ -62,6 +61,29 @@ if($username = loginOK($user_id,$user_pw,$result)){
 		}
 		 
 	}
+	$sql = "SELECT * FROM ".REVIEW_TABLE.$user_id;
+
+	if(!$result = mysqli_query($conn,$sql)){
+		$to_client['state']=SQL_QUERY_ERROR;
+	}
+
+	$to_client['gu_enroll_num'] = array();
+	$is_gu_enroll=0;
+	while($row = mysqli_fetch_assoc($result)){
+		$is_gu_enroll=1;
+		$gu_num = $row['gu_num'];
+		$map_id = $row['map_id'];
+		$to_client['gu_enroll_num']["{$map_id}"]["{$gu_num}"]+=1;
+	}
+	if($is_gu_enroll){
+		$to_client['gu_enroll_num']['state'] = CLIENT_REVIEW_META_DOWN_SUCCESS;
+		
+	}
+	else{
+		$to_client['gu_enroll_num']['state'] = CLIENT_REVIEW_META_DOWN_EMPTY;
+		
+	}
+
 
 	
 	echo json_encode($to_client);
@@ -94,7 +116,8 @@ function loginOK($id,$pw,$result){
 class Map_Metainfo{
 	public $map_id, $title, $category, $hash_tag, $created;
 
-
 }
+
+
 
 ?>

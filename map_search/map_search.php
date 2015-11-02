@@ -10,7 +10,7 @@ $to_client = array('state'=>NON_KNOWN_ERROR);
 $more = $value['more'];
 $target_word = $value['target'];
 
-$contents_count = 3;
+$contents_count = 6;
 $more *=$contents_count;
 
 if(!$conn = connect_mysqli(MYSQL_IP,MAIN_DB,DB_PASSWORD,USE_DB)){

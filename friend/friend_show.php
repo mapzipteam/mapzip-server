@@ -14,6 +14,12 @@ else{
 //echo "connect success!\n";
 }
 
+$contents_count = 6;
+
+$more = $value['more'];
+$more *= $contents_count;
+
+
 $sql = "SELECT * FROM ".CLIENT_TABLE.$value['userid'];
 
 
@@ -23,9 +29,18 @@ if(!$result = mysqli_query($conn,$sql)){
 }
 else{
 	$to_client['friend_list'] = array();
+	$is_friend_item = 0;
 	while($row = mysqli_fetch_assoc($result)){
 		if($row['type'] == CLIENT_TYPE_FRIEND){
 			// only friend info
+			if($more>0){
+				$more -= 1;
+				continue;
+			}
+			if($contents_count<=0){
+				break;
+			}
+			$is_friend_item = 1;
 			$friend_object = new Friend_Item;
 			$sql_2 = "SELECT * FROM ".USER_TABLE." WHERE userid = '{$row['friend_id']}'";
 			$result2 = mysqli_query($conn,$sql_2);
@@ -34,10 +49,17 @@ else{
 			$friend_object->user_name = $row2['username'];
 			$friend_object->total_review = $row2['total_review'];
 			array_push($to_client['friend_list'], $friend_object);
+			$contents_count -= 1;
 		}
 
 	}
-	$to_client['state']="show success";
+	if($is_friend_item==0){
+		$to_client['state'] = FRIEND_ITEM_SHOW_EMPTY;
+
+	}else{
+		$to_client['state'] = FRIEND_ITEM_SHOW_SUCCESS;
+	}
+	
 	echo json_encode($to_client);
 }
 

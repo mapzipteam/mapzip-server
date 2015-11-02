@@ -34,4 +34,14 @@ define("CLIENT_REVIEW_META_DOWN_SUCCESS",701); // 가게 위경도, 가게 이�
 define("CLIENT_REVIEW_META_DOWN_EMPTY",711); // 가게 위경도, 가게 이름이 해당 지도에 없음
 
 define("CLIENT_REVIEW_DETAIL_DOWN_SUCCESS",702); // map_detail 성공 
+
+
+
+// state define 800~ : about friend_home.php
+define("FRIEND_HOME_SUCCESS",801); // success
+
+
+// state define 900~ : about friend_show.php
+define("FRIEND_ITEM_SHOW_SUCCESS", 901); // success to show user's friend list
+define("FRIEND_ITEM_SHOW_EMPTY",902); // if user's friend list is empty..
 ?>

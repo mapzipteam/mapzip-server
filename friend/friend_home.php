@@ -13,7 +13,32 @@ else{
 //echo "connect success!\n";
 }
 
-$sql = "SELECT * FROM ".REVIEW_TABLE.$target_id;
+$to_client['state'] = FRIEND_HOME_SUCCESS;
+$to_client['mapmeta_info']=array();
+
+
+	$sql = "SELECT * FROM ".CLIENT_TABLE.$value['target_id'];
+
+	if(!$result = mysqli_query($conn,$sql)){
+		$to_client['state']=SQL_QUERY_ERROR;
+	}
+	while($row = mysqli_fetch_assoc($result)){
+		if($row['type']==CLIENT_TYPE_MAPMETA){
+			$map_object = new Map_Metainfo;
+			$map_object->map_id = $row['pid'];
+			$map_object->title = $row['title'];
+			$map_object->category = $row['category'];
+			$map_object->created = $row['created'];
+			$map_object->hash_tag = $row['hash_tag'];
+			array_push($to_client['mapmeta_info'],$map_object);
+
+		}
+		 
+	}
+
+
+
+$sql = "SELECT * FROM ".REVIEW_TABLE.$value['target_id'];
 
 if(!$result = mysqli_query($conn,$sql)){
 		$to_client['state']=SQL_QUERY_ERROR;
@@ -36,8 +61,21 @@ if(!$result = mysqli_query($conn,$sql)){
 		
 	}
 
+	$sql = "SELECT * FROM ".USER_TABLE." WHERE userid='{$value['target_id']}'";
+	if(!$result = mysqli_query($conn,$sql)){
+		$to_client['state']= SQL_QUERY_ERROR;
+	}
+
+	$row = mysqli_fetch_assoc($result);
+	$to_client['user_name']  = $row['username'];
+
 
 	
 	echo json_encode($to_client);
+
+	class Map_Metainfo{
+	public $map_id, $title, $category, $hash_tag, $created;
+
+}
 
 ?>

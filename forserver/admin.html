@@ -9,7 +9,7 @@
     <h1>MapZip 관리자 페이지입니다</h1>
     <h2>패치사항에 알려줄 내용을 적는 부분입니다.</h2>
     <label>현재 패치공지사항 : </label><br />
-    <textarea name="old_fetch_contents" cols="100" rows="15" readonly="readonly"></textarea>
+    <textarea id="old_fetch_contents" cols="100" rows="15" readonly="readonly"></textarea>
     <form id="contact-form" action="admin.html" method="post">
         <label>새로운 패치사항 : </label><br />
         <textarea name="new_fetch_contents" cols="100" rows="20"></textarea>
@@ -19,9 +19,9 @@
 
     <script>
         function fill_old() {
-            var old_patch = document.getElementsByName("old_fetch_contents");
-            old_patch.value = "this is old";
-
+            var old_patch = document.getElementById("old_fetch_contents");
+            old_patch.value = "<?php echo($_POST['new_fetch_contents']); ?>";
+            document.write("this is fill_old");
         }
         
     </script>

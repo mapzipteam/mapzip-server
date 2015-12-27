@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>관리자페이지</title>
+</head>
+<body>
+    <h1>MapZip 관리자 페이지입니다</h1>
+    <h2>패치사항에 알려줄 내용을 적는 부분입니다.</h2>
+    <label>현재 패치공지사항 : </label><br />
+    <textarea name="old_fetch_contents" cols="100" rows="15" readonly="readonly"></textarea>
+    <form id="contact-form" action="admin.html" method="post">
+        <label>새로운 패치사항 : </label><br />
+        <textarea name="new_fetch_contents" cols="100" rows="20"></textarea>
+        <input type="hidden" name="do" value="ok" />
+        <input type="submit" value="submit" id="fetch_submit"/>
+    </form>
+
+    <script>
+        function fill_old() {
+            var old_patch = document.getElementsByName("old_fetch_contents");
+            old_patch.value = "this is old";
+
+        }
+        
+    </script>
+
+    <?php
+    if($_POST['do']=="ok"){
+    	echo("new contents : ".$_POST['new_fetch_contents']." !<br>");
+    	echo "<script>fill_old();</script><br>";
+    }
+
+    ?>
+</body>

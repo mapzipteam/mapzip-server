@@ -7,26 +7,29 @@
     <title>관리자페이지</title>
 </head>
 <body>
+<div class="center-part">
     <h1>MapZip 관리자 페이지입니다</h1>
     <h2>패치사항에 알려줄 내용을 적는 부분입니다.</h2>
     <label>현재 패치공지사항 : </label><br />
     <textarea id="old_fetch_contents" cols="100" rows="15" readonly="readonly"></textarea>
-    <form id="contact-form" action="admin.html" method="post">
+    <form id="contact-form" action="admin.html" method="post" onsubmit="update_new()">
         <label>새로운 패치사항 : </label><br />
         <textarea name="new_fetch_contents" cols="100" rows="20"></textarea>
         <input type="hidden" name="do" value="ok" />
         <input type="submit" value="submit" id="fetch_submit"/>
     </form>
-
+</div>
     <script>
-        function fill_old() {
+        function fill_old(old_contents) {
             var old_patch = document.getElementById("old_fetch_contents");
-            old_patch.value = "<?php echo($_POST['new_fetch_contents']); ?>";
+            old_patch.value = old_contents;
             document.write("this is fill_old");
+        }
+        function update_new(){
+            alert("새로운 공지사항을 반영하였습니다");
         }
         
     </script>
-
     <?php
     include("../fmysql.php");
     include("../mapzip-mysql-define.php");
@@ -40,22 +43,36 @@
         echo "connect success!<br>";
     }
 
-    $sql = "SELECT * FROM ".UPDATE_TABLE;
-
-    if(!$result = mysqli_query($conn,$sql)){
-        echo "query fail...\n";
-        //$to_client['state']=SQL_QUERY_ERROR;
-    }
-    while($row = mysqli_fetch_assoc($result)){
-         echo($row['id']."<br>");
-         echo($row['version']."<br>");
-         echo($row['contents']."<br>");
-    }
     
     if($_POST['do']=="ok"){
     	echo("new contents : ".$_POST['new_fetch_contents']." !<br>");
-    	echo "<script>fill_old();</script><br>";
+        $sql = "UPDATE ".UPDATE_TABLE." SET contents = '{$_POST['new_fetch_contents']}' where id = 1";
+    	//echo "<script>fill_old();</script><br>";
+        if(!$result = mysqli_query($conn,$sql)){
+            echo "query fail...\n";
+        //$to_client['state']=SQL_QUERY_ERROR;
+        }
+        $old_contents = "ID : "."1".'\n';
+        $old_contents .= "버전 : "."2".'\n';
+        $old_contents .= "내용 : ".'\n'.$_POST['new_fetch_contents'].'\n';
+    }
+    else{
+        $sql = "SELECT * FROM ".UPDATE_TABLE;
+
+        if(!$result = mysqli_query($conn,$sql)){
+            echo "query fail...\n";
+            //$to_client['state']=SQL_QUERY_ERROR;
+        }
+        while($row = mysqli_fetch_assoc($result)){
+            $old_contents = "ID : ".$row['id'].'\n';
+            $old_contents .= "버전 : ".$row['version'].'\n';
+            $old_contents .= "내용 : ".'\n'.$row['contents'].'\n';
+            break;
+        }
     }
 
     ?>
+    <script type="text/javascript">
+    fill_old("<?=$old_contents ?>");
+    </script>
 </body>

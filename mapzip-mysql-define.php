@@ -12,6 +12,9 @@ define("USER_TABLE","mz_user_info");
 // mysql, web, admin - mz_update_table
 define("UPDATE_TABLE","mz_update_table");
 
+// mysql, web, user_sound - mz_user_sound
+define("USER_SOUND_TABLE","mz_user_sound");
+
 // mysql - mz_client_***
 define("CLIENT_TABLE","mz_client_");
 define("CLIENT_TYPE_MAPMETA",1);

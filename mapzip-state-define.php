@@ -44,4 +44,8 @@ define("FRIEND_HOME_SUCCESS",801); // success
 // state define 900~ : about friend_show.php
 define("FRIEND_ITEM_SHOW_SUCCESS", 901); // success to show user's friend list
 define("FRIEND_ITEM_SHOW_EMPTY",902); // if user's friend list is empty..
+
+// state define 1000~ : about interact with users
+define("USER_SOUND_INSERT_SUCCESS",1001); // success to insert in user sound to mz_user_sound table
+define("USER_SOUND_INSERT_FAIL",1002); // fail it
 ?>

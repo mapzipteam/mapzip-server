@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="loginstyle.css">
+    <title>관리자페이지</title>
+</head>
+<body>
+<div class="center-part">
+    <h1>MapZip 유저의견 페이지입니다</h1>
+    <h2>클라이언트로부터 전달된 유저들의 의견을 볼 수 있습니다</h2>
+    
+    <?php
+    include("../fmysql.php");
+    include("../mapzip-mysql-define.php");
+    include("../mapzip-state-define.php");
+
+    if(!$conn = connect_mysqli(MYSQL_IP,MAIN_DB,DB_PASSWORD,USE_DB)){
+        echo "connnection error!\n";
+        //$to_client['state']=DB_CONNECTION_ERROR;
+    }
+    else{
+        //echo "connect success!<br>";
+    }
+
+    ?>
+    <table width="1100" border="1" cellspacing="0" cellpadding="5">
+        <tr>
+            <th width="50">
+                KEY
+            </th>
+            <th width="100">
+                USER ID
+            </th>
+            <th width="150">
+                USER NAME
+            </th>
+            <th width="50">
+                CATEGORY
+            </th>
+            <th width="500">
+                CONTENTS
+            </th>
+            <th width="50">
+                TAKES
+            </th>
+            <th width="200">
+                CREATED
+            </th>
+        </tr>
+        <?php
+        $sql = "SELECT * FROM ".USER_SOUND_TABLE;
+        if(!$result = mysqli_query($conn,$sql)){
+            echo("sql select error");
+        }
+        while($row = mysqli_fetch_assoc($result)){
+            echo("<tr><td>{$row['pid']}</td>");
+            echo("<td>{$row['user_id']}</td>");
+            echo("<td>{$row['user_name']}</td>");
+            echo("<td>{$row['category']}</td>");
+            echo("<td>{$row['contents']}</td>");
+            echo("<td>{$row['takes']}</td>");
+            echo("<td>{$row['created']}</td>");
+            echo("</tr>");
+
+        }
+         
+   
+
+
+        ?>
+        
+    </table>
+</div>
+</body>
+</html>

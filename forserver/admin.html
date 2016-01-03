@@ -4,6 +4,14 @@
 <head>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="loginstyle.css">
+    <style type="text/css">
+    #nav_menu ul{
+        list-style-type: none;
+    }
+    #nav_menu ul li{
+        display: inline;
+    }
+    </style>
     <title>관리자페이지</title>
 </head>
 <body>
@@ -13,8 +21,17 @@
         echo('<script>location.replace("./errorPage.html");</script>');
     }
     ?>
-   
-<div class="center-part">
+    <div id="nav_menu">
+        <ul>
+            <li>메뉴 1</li>
+            <li>메뉴 2</li>
+            <li>메뉴 3</li>
+            <li>메뉴 4</li>
+            <li>메뉴 5</li>
+        </ul>
+    </div>
+
+    <div class="center-part">
     <h1>MapZip 관리자 페이지입니다</h1>
     <h2>패치사항에 알려줄 내용을 적는 부분입니다.</h2>
     <label>현재 패치공지사항 : </label><br />

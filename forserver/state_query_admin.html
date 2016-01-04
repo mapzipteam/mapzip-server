@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="loginstyle.css">
+    <link rel="stylesheet" href="admin_all.css">
+    <title>관리자페이지</title>
+</head>
+<body>
+	<?php include("nav_contents.html");?>
+	<h1>Mapzip 상태코드 조회 페이지 입니다.</h1>
+	<?php
+	$fp = fopen("../mapzip-state-define.php","r");
+	while( !feof($fp) ){
+		$doc_data .= fgets($fp);
+		$doc_data .="<br>";
+	}
+	fclose($fp);
+	echo $doc_data;
+
+	?>
+</body>
+</html>

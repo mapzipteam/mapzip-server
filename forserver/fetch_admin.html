@@ -8,20 +8,11 @@
     <title>관리자페이지</title>
 </head>
 <body>
+    <script type="text/javascript" src="admin_all.js"></script>
     <script type="text/javascript">
-    if(window.sessionStorage.getItem('isLogin')!='ok'){
-        location.replace('./errorPage.html');
-    }
+    isLogin();
     </script>
-    <div id="nav_menu">
-        <ul>
-            <li><a href="./adminlogin.html">로그인 페이지</a></li>
-            <li><a href="./fetch_admin.html">공지사항 관리 페이지</a></li>
-            <li><a href="./user_sound_admin.html">유저 의견 관리 페이지</a></li>
-            <li><a href="">메뉴 4</a></li>
-            <li><a href="">메뉴 5</a></li>
-        </ul>
-    </div>
+    <?php include("nav_contents.html");?>
     <div class="center-part">
     <h1>MapZip 관리자 페이지입니다</h1>
     <h2>패치사항에 알려줄 내용을 적는 부분입니다.</h2>

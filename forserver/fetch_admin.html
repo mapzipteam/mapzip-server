@@ -4,33 +4,24 @@
 <head>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="loginstyle.css">
-    <style type="text/css">
-    #nav_menu ul{
-        list-style-type: none;
-    }
-    #nav_menu ul li{
-        display: inline;
-    }
-    </style>
+    <link rel="stylesheet" href="admin_all.css">
     <title>관리자페이지</title>
 </head>
 <body>
-    
-    <?php
-    if($_POST['onlyfrom']!='ok'){
-        echo('<script>location.replace("./errorPage.html");</script>');
+    <script type="text/javascript">
+    if(window.sessionStorage.getItem('isLogin')!='ok'){
+        location.replace('./errorPage.html');
     }
-    ?>
+    </script>
     <div id="nav_menu">
         <ul>
-            <li>메뉴 1</li>
-            <li>메뉴 2</li>
-            <li>메뉴 3</li>
-            <li>메뉴 4</li>
-            <li>메뉴 5</li>
+            <li><a href="./adminlogin.html">로그인 페이지</a></li>
+            <li><a href="./fetch_admin.html">공지사항 관리 페이지</a></li>
+            <li><a href="./user_sound_admin.html">유저 의견 관리 페이지</a></li>
+            <li><a href="">메뉴 4</a></li>
+            <li><a href="">메뉴 5</a></li>
         </ul>
     </div>
-
     <div class="center-part">
     <h1>MapZip 관리자 페이지입니다</h1>
     <h2>패치사항에 알려줄 내용을 적는 부분입니다.</h2>

@@ -23,11 +23,20 @@ define("MAP_SEARCH_FAIL",503);
 define("CLIENT_REVIEW_DATA_ENROLL_SUCCESS",601); // 리뷰 등록 택스트 데이터 등록 성공
 define("CLIENT_REVIEW_IMAGE_MKDIR_SUCCESS",602); // 리뷰 등록 이미지 데이터 디렉토리 생성 성공
 define("CLIENT_REVIEW_IMAGE_ENROLL_SUCCESS",603); // 리뷰 등록 이미지 데이터 등록 성공
+define("CLIENT_REVIEW_DATA_DELETE_SUCCESS",604); // 리뷰 삭제 텍스트 데이터 삭제 성공
+define("CLIENT_REVIEW_IMAGE_RMDIR_SUCCESS",605); // 리뷰 삭제 이미지 데이터 및 디렉토리 삭제 성공
+define("CLIENT_REVIEW_IMAGE_RMDIR_NONE",606);  // 리뷰 삭제 이미지 디렉토리가 애초에 없음(이미지없음)
+define("CLIENT_REVIEW_DATA_UPDATE_SUCCESS",607); // 리뷰 갱신 텍스트 데이터 갱신 성공
 
 define("CLIENT_REVIEW_DATA_ENROLL_FAIL",611); // 리뷰 텍스트 데이터 등록 insert 오류
 define("CLIENT_REVIEW_DATA_ENROLL_EXIST",612); // 리뷰 텍스트 데이터 등록 중복데이터 오류
 define("CLIENT_REVIEW_IMAGE_MKDIR_EXIST",621); // 리뷰 이미지 데이터 디렉토리이름 중복발생
 define("CLIENT_REVIEW_IMAGE_MKDIR_FAIL",622);  // 리뷰 이미지 데이터 생성 실패
+define("CLIENT_REVIEW_DATA_DELETE_FAIL",631);  // 리뷰 텍스트 데이터 삭제 오류
+define("CLIENT_REVIEW_IMAGE_RMDIR_FAIL",632);  // 리뷰 이미지 데이터 및 디렉토리 삭제 실패
+define("CLIENT_REVIEW_DATA_UPDATE_FAIL",641);  // 리뷰 텍스트 데이터 갱신 오류
+
+
 
 // state define 700~ : about client_data/map_meta
 define("CLIENT_REVIEW_META_DOWN_SUCCESS",701); // 가게 위경도, 가게 이름 정보 전달 성공, 로그인 성공 까지

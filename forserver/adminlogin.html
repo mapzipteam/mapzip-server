@@ -8,10 +8,10 @@
 		<div class="login-screen">
 			<div class="app-title">
         <H2>MAPZIP Admin Page</H2>
-        <form action="./admin.html" method="post">
+        <form action="./fetch_admin.html" method="post">
           <input type="text" name="login-id" value="" placeholder="ID" id="login-id"><br/><br/>
           <input type="password" name="login-pass" value="" placeholder="PASSWORD" id="login-pass" onkeypress="if(event.keyCode==13){fnEnterCheck(); return false;}"/><br/><br/>
-          <input type="hidden" name="onlyfrom" value="ok" />
+          <!--<input type="hidden" name="onlyfrom" value="ok" />-->
           <input type="submit" value="LOGIN" class="btn btn-primary btn-large btn-block" id="end" onclick="if(fnLogin()!=1){return false;}"/>
         </form>
       
@@ -25,6 +25,10 @@ function fnLogin(){
   var objPasswd = document.getElementById("login-pass");
   
   if((objLogin.value==="ppang") && (objPasswd.value==="ppang")){
+    if(window.sessionStorage){
+      sessionStorage.setItem('isLogin','ok');
+
+    }
     document.getElementById("end").click();
   //location.replace("http://ljs93kr.cafe24.com/mapzip/forserver/admin.html");
     return 1;

@@ -8,13 +8,18 @@
     <title>관리자페이지</title>
 </head>
 <body>
+    <script type="text/javascript">
+    if(window.sessionStorage.getItem('isLogin')!='ok'){
+        location.replace('./errorPage.html');
+    }
+    </script>
     <div id="nav_menu">
         <ul>
-            <li><a href="./adminlogin.html">메뉴 1</a></li>
-            <li><a href="./adminlogin.html">메뉴 2</a></li>
-            <li><a href="./adminlogin.html">메뉴 3</a></li>
-            <li><a href="./adminlogin.html">메뉴 4</a></li>
-            <li><a href="./adminlogin.html">메뉴 5</a></li>
+            <li><a href="./adminlogin.html">로그인 페이지</a></li>
+            <li><a href="./fetch_admin.html">공지사항 관리 페이지</a></li>
+            <li><a href="./user_sound_admin.html">유저 의견 관리 페이지</a></li>
+            <li><a href="">메뉴 4</a></li>
+            <li><a href="">메뉴 5</a></li>
         </ul>
     </div>
     <div class="center-part">

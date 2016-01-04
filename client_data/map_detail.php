@@ -28,6 +28,7 @@ else{
 		if($row['pid']==$value['store_id']){
 			$map_object = new Map_Detail;
 			$map_object->store_id = $row['pid'];
+			$map_object->gu_num = $row['gu_num'];
 			$map_object->map_id = $row['map_id'];
 			$map_object->store_name = $row['store_name'];
 			$map_object->store_address = $row['store_address'];
@@ -45,7 +46,7 @@ else{
 echo json_encode($to_client);
 
 class Map_Detail{
-	public $store_id, $store_address, $store_contact, $review_emotion, $review_text, $image_num;
+	public $store_id, $gu_num, $store_address, $store_contact, $review_emotion, $review_text, $image_num;
 }
 
 ?>

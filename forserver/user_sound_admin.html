@@ -12,10 +12,16 @@
     <script type="text/javascript">
     isLogin();
     </script>
-    <?php include("nav_contents.html");?>
+    <div class="full-frame">
+        <div class="header-part">
+            <h1>MapZip 유저의견 페이지입니다</h1>
+        </div>
+    
+    
     <div class="center-part">
-    <h1>MapZip 유저의견 페이지입니다</h1>
-    <h2>클라이언트로부터 전달된 유저들의 의견을 볼 수 있습니다</h2>
+    <?php include("nav_contents.html");?>
+    <div class="contents-main">
+        <h2>클라이언트로부터 전달된 유저들의 의견을 볼 수 있습니다</h2>
     
     <?php
     include("../fmysql.php");
@@ -78,6 +84,9 @@
         ?>
         
     </table>
+    </div>
+    
+</div>
 </div>
 </body>
 </html>

@@ -8,17 +8,27 @@
     <title>관리자페이지</title>
 </head>
 <body>
-	<?php include("nav_contents.html");?>
-	<h1>Mapzip 상태코드 조회 페이지 입니다.</h1>
-	<?php
-	$fp = fopen("../mapzip-state-define.php","r");
-	while( !feof($fp) ){
-		$doc_data .= fgets($fp);
-		$doc_data .="<br>";
-	}
-	fclose($fp);
-	echo $doc_data;
-
-	?>
+	<div class="full-frame">
+		<div class="header-part">
+			<h1>Mapzip 상태코드 조회 페이지 입니다.</h1>
+		</div>
+		<div class="center-part">
+			<?php include("nav_contents.html");?>
+			<div class="contents-main">
+				<?php
+				$fp = fopen("../mapzip-state-define.php","r");
+				while( !feof($fp) ){
+					$doc_data .= fgets($fp);
+					$doc_data .="<br>";
+				}
+				fclose($fp);
+				echo $doc_data;
+				?>
+			</div>
+		</div>
+	</div>
+	
+	
+	
 </body>
 </html>

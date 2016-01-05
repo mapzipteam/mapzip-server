@@ -1,27 +1,60 @@
-#nav_menu ul{
-    list-style-type: none;
-    background-color: #000000;
-    padding: 1px 5px 5px 1px;
-    float: right;
+body {
+font-family: Arial;
+background-color: #ffffcc;
+padding: 50px;
 }
-#nav_menu ul li{
+
+.full-frame{
+    margin: 0px auto;
+    border: 1px solid #aaa;
+
+}
+
+.header-part{
+    padding: 40px 10px;
+    text-align: center;
+    background-color: #eee;
+    
+}
+
+.center-part{
+    overflow: hidden;
+}
+
+.nav_menu{
+    float: top;
+    
+    margin-bottom: 50px;
+}
+
+.nav_menu ul{
+    list-style: none;
+    background-color: #000000;
+    margin: 0px;
+    padding: 1px 5px 5px 1px;
+}
+.nav_menu ul li{
     display: inline;
-    border-left: 1px solid #c0c0c0;
+    
     /* 테두리와 메뉴 간격 벌리기. padding 위 오른쪽 아래 왼쪽*/
     padding: 0px 10px 0px 10px;
     /* 메뉴와 테두리 사이 간격 벌리기. margin 위 오른쪽 아래 왼쪽*/
-    margin: 5px 0px 5px 0px;
+    margin: 5px 3px 5px 3px;
     color: #ffffff;
-    font-size: 9pt;
+    font-size: 10pt;
 }
-#nav_menu ul li:first-child{
+.nav_menu ul li:first-child{
     border-left: none;
 }
-#nav_menu a{
+.nav_menu a{
     text-decoration: none;
     color: #ffffff;
 }
-#nav_menu a:hover{
+.nav_menu a:hover{
     color: #d4f4fa;
     border-bottom: 2px solid yellow;
+}
+
+.contents-main{
+    float: left;
 }

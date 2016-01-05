@@ -6,11 +6,6 @@ box-sizing: border-box;
 	outline: none;
 }
 
-body {
-font-family: Arial;
-background-color: #ffffcc;
-padding: 50px;
-}
 
 .login {
 margin: 20px auto;

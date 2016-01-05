@@ -12,21 +12,28 @@
     <script type="text/javascript">
     isLogin();
     </script>
-    <?php include("nav_contents.html");?>
-    <div class="center-part">
-    <h1>MapZip 관리자 페이지입니다</h1>
-    <h2>패치사항에 알려줄 내용을 적는 부분입니다.</h2>
-    <label>현재 패치공지사항 : </label><br />
-    <textarea id="old_fetch_contents" cols="100" rows="15" readonly="readonly"></textarea>
-    <form id="contact-form" action="admin.html" method="post" onsubmit="update_new()">
-        <label>새로운 패치사항 : </label><br />
-        <textarea name="new_fetch_contents" cols="100" rows="20"></textarea><br>
-        <label>새버전 : </label><input type="text" name="new_version" />
-        <input type="hidden" name="do" value="ok" />
-        <input type="hidden" name="onlyfrom" value="ok"/>
-        <input type="submit" value="submit" id="fetch_submit"/>
-    </form>
-</div>
+    <div class="full-frame">
+        <div class="header-part">
+            <h1>MapZip 관리자 페이지입니다</h1>
+        </div>
+        <div class="center-part">
+            <?php include("nav_contents.html");?>
+            <div class="contents-main">
+                <h2>패치사항에 알려줄 내용을 적는 부분입니다.</h2>
+                <label>현재 패치공지사항 : </label><br />
+                <textarea id="old_fetch_contents" cols="100" rows="15" readonly="readonly"></textarea>
+                <form id="contact-form" action="admin.html" method="post" onsubmit="update_new()">
+                    <label>새로운 패치사항 : </label><br />
+                    <textarea name="new_fetch_contents" cols="100" rows="20"></textarea><br>
+                    <label>새버전 : </label><input type="text" name="new_version" />
+                    <input type="hidden" name="do" value="ok" />
+                    
+                    <input type="submit" value="submit" id="fetch_submit"/>
+                </form>
+
+            </div>
+            
+        </div>
     <script>
         function fill_old(old_contents) {
             var old_patch = document.getElementById("old_fetch_contents");
@@ -53,9 +60,9 @@
 
     
     if($_POST['do']=="ok"){
-    	echo("new contents : ".$_POST['new_fetch_contents']." !<br>");
+        echo("new contents : ".$_POST['new_fetch_contents']." !<br>");
         $sql = "UPDATE ".UPDATE_TABLE." SET contents = '{$_POST['new_fetch_contents']}', version = {$_POST['new_version']} where id = 1";
-    	//echo "<script>fill_old();</script><br>";
+        //echo "<script>fill_old();</script><br>";
         if(!$result = mysqli_query($conn,$sql)){
             echo "query fail...\n";
         //$to_client['state']=SQL_QUERY_ERROR;
@@ -83,4 +90,6 @@
     <script type="text/javascript">
     fill_old("<?=$old_contents ?>");
     </script>
+    </div>
+    
 </body>

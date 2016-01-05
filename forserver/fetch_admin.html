@@ -3,7 +3,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="loginstyle.css">
+    
     <link rel="stylesheet" href="admin_all.css">
     <title>관리자페이지</title>
 </head>
@@ -38,7 +38,7 @@
         function fill_old(old_contents) {
             var old_patch = document.getElementById("old_fetch_contents");
             old_patch.value = old_contents;
-            document.write("this is fill_old");
+            
         }
         function update_new(){
             alert("새로운 공지사항을 반영하였습니다");
@@ -53,14 +53,14 @@
     if(!$conn = connect_mysqli(MYSQL_IP,MAIN_DB,DB_PASSWORD,USE_DB)){
         echo "connnection error!\n";
         //$to_client['state']=DB_CONNECTION_ERROR;
+        echo("<script>alert('DB 연결에 문제가 있습니다');</script>");
     }
     else{
-        echo "connect success!<br>";
+        //echo "connect success!<br>";
     }
 
     
     if($_POST['do']=="ok"){
-        echo("new contents : ".$_POST['new_fetch_contents']." !<br>");
         $sql = "UPDATE ".UPDATE_TABLE." SET contents = '{$_POST['new_fetch_contents']}', version = {$_POST['new_version']} where id = 1";
         //echo "<script>fill_old();</script><br>";
         if(!$result = mysqli_query($conn,$sql)){
@@ -90,6 +90,9 @@
     <script type="text/javascript">
     fill_old("<?=$old_contents ?>");
     </script>
+    
+    <?php include("./foot-contents.html"); ?>
+
     </div>
     
 </body>

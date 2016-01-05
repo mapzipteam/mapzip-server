@@ -3,30 +3,28 @@ font-family: Arial;
 background-color: #ffffcc;
 padding: 50px;
 }
-
 .full-frame{
     margin: 0px auto;
     border: 1px solid #aaa;
-
 }
-
 .header-part{
     padding: 40px 10px;
     text-align: center;
     background-color: #eee;
-    
 }
-
+.footer-part{
+    padding: 10px 5px;
+    text-align: center;
+    background-color: #eff;
+}
 .center-part{
     overflow: hidden;
-}
 
+}
 .nav_menu{
     float: top;
-    
     margin-bottom: 50px;
 }
-
 .nav_menu ul{
     list-style: none;
     background-color: #000000;
@@ -54,7 +52,7 @@ padding: 50px;
     color: #d4f4fa;
     border-bottom: 2px solid yellow;
 }
-
 .contents-main{
     float: left;
+    padding: 10px;
 }

@@ -3,7 +3,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="loginstyle.css">
+    
     <link rel="stylesheet" href="admin_all.css">
     <title>관리자페이지</title>
 </head>
@@ -18,7 +18,13 @@
 				<?php
 				$fp = fopen("../mapzip-state-define.php","r");
 				while( !feof($fp) ){
-					$doc_data .= fgets($fp);
+					$one_line = fgets($fp);
+					if($one_line[0]=='/'){
+						$doc_data .= "주석 : ".$one_line; 
+					}
+					else{
+						$doc_data .= $one_line;
+					}
 					$doc_data .="<br>";
 				}
 				fclose($fp);
@@ -26,6 +32,7 @@
 				?>
 			</div>
 		</div>
+		<?php include("./foot-contents.html"); ?>
 	</div>
 	
 	

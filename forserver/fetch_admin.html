@@ -5,6 +5,15 @@
     <meta charset="utf-8" />
     
     <link rel="stylesheet" href="admin_all.css">
+    <style type="text/css">
+    #old_fetch_contents{
+        border: 1px solid #eee;
+        background-color: #fff;
+        padding: 5px;
+        margin: 5px;
+    }
+
+    </style>
     <title>관리자페이지</title>
 </head>
 <body>
@@ -21,8 +30,9 @@
             <div class="contents-main">
                 <h2>패치사항에 알려줄 내용을 적는 부분입니다.</h2>
                 <label>현재 패치공지사항 : </label><br />
-                <textarea id="old_fetch_contents" cols="100" rows="15" readonly="readonly"></textarea>
-                <form id="contact-form" action="admin.html" method="post" onsubmit="update_new()">
+                <!--<textarea id="old_fetch_contents" cols="100" rows="15" readonly="readonly"></textarea>-->
+                <div id="old_fetch_contents"></div>
+                <form id="contact-form" action="fetch_admin.html" method="post" onsubmit="update_new()">
                     <label>새로운 패치사항 : </label><br />
                     <textarea name="new_fetch_contents" cols="100" rows="20"></textarea><br>
                     <label>새버전 : </label><input type="text" name="new_version" />
@@ -37,7 +47,7 @@
     <script>
         function fill_old(old_contents) {
             var old_patch = document.getElementById("old_fetch_contents");
-            old_patch.value = old_contents;
+            old_patch.innerHTML = old_contents;
             
         }
         function update_new(){
@@ -61,15 +71,20 @@
 
     
     if($_POST['do']=="ok"){
+        
+        //$result = str_replace('\r\n','\n',$_POST['new_fetch_contents']);
         $sql = "UPDATE ".UPDATE_TABLE." SET contents = '{$_POST['new_fetch_contents']}', version = {$_POST['new_version']} where id = 1";
         //echo "<script>fill_old();</script><br>";
         if(!$result = mysqli_query($conn,$sql)){
             echo "query fail...\n";
         //$to_client['state']=SQL_QUERY_ERROR;
         }
-        $old_contents = "ID : "."1".'\n';
-        $old_contents .= "버전 : ".$_POST['new_version'].'\n';
-        $old_contents .= "내용 : ".'\n'.$_POST['new_fetch_contents'].'\n';
+        $old_contents = "ID : "."1"."\r\n";
+        $old_contents .= "버전 : ".$_POST['new_version']."\r\n";
+        $old_contents .= "내용 : "."\r\n";
+        $old_contents .= "{$_POST['new_fetch_contents']}"."\r\n";
+        $old_contents = str_replace("\r\n","<br>",$old_contents);
+        //$old_contents = nl2br($old_contents);
     }
     else{
         $sql = "SELECT * FROM ".UPDATE_TABLE;
@@ -79,9 +94,12 @@
             //$to_client['state']=SQL_QUERY_ERROR;
         }
         while($row = mysqli_fetch_assoc($result)){
-            $old_contents = "ID : ".$row['id'].'\n';
-            $old_contents .= "버전 : ".$row['version'].'\n';
-            $old_contents .= "내용 : ".'\n'.$row['contents'].'\n';
+            $old_contents = "ID : ".$row['id']."\r\n";
+            $old_contents .= "버전 : ".$row['version']."\r\n";
+            $old_contents .= "내용 : "."\r\n";
+            $old_contents .= "{$row['contents']}"."\r\n";
+            $old_contents = str_replace("\r\n","<br>",$old_contents);
+            //$old_contents = nl2br($old_contents);
             break;
         }
     }

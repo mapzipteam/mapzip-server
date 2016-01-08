@@ -51,6 +51,7 @@
     if($_POST['do']=="ok"){
         include("../fmysql.php");
     include("../mapzip-mysql-define.php");
+    include("../client_data/client_rmdir.php");
     if(!$conn = connect_mysqli(MYSQL_IP,MAIN_DB,DB_PASSWORD,USE_DB)){
     //echo "connnection error!\n";
         echo "connect mysql fail..<br>";
@@ -83,6 +84,19 @@
         else{
             echo "FAIL : drop table {$row['userid']} from mz_client..<br>";
         }
+        $sql = "SELECT * FROM ".REVIEW_TABLE.$row['userid'];
+        if(!$select_result = mysqli_query($conn,$sql)){
+            echo("select query error");
+        }else{
+            while($review_row = mysqli_fetch_assoc($select_result)){
+                $direct_path = "../client_data/client_{$row['userid']}_{$review_row['map_id']}_{$review_row['pid']}";
+                if(removeDirectory($direct_path)){
+                    echo("{$direct_path} directory delete complete<br>");
+                }else{
+                    echo("{$direct_path} directory delete fail<br>");
+            }
+        }
+    }
         $sql = "DROP TABLE ".REVIEW_TABLE.$row['userid'];
         if($var = mysqli_query($conn,$sql)){
         //echo "query fail...\n";
@@ -113,6 +127,19 @@
     }
     else{
         echo "FAIL : drop table {$_POST['target_id']} from mz_client..<br>";
+    }
+    $sql = "SELECT * FROM ".REVIEW_TABLE.$_POST['target_id'];
+    if(!$result = mysqli_query($conn,$sql)){
+        echo("select query error");
+    }else{
+        while($row = mysqli_fetch_assoc($result)){
+            $direct_path = "../client_data/client_{$_POST['target_id']}_{$row['map_id']}_{$row['pid']}";
+            if(removeDirectory($direct_path)){
+                echo("{$direct_path} directory delete complete<br>");
+            }else{
+                echo("{$direct_path} directory delete fail<br>");
+            }
+        }
     }
     $sql = "DROP TABLE ".REVIEW_TABLE.$_POST['target_id'];
     if($result = mysqli_query($conn,$sql)){

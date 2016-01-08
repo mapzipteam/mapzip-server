@@ -3,11 +3,23 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
+    <link rel="stylesheet" href="admin_all.css">
     <title>디비정보 삭제하기</title>
 </head>
 <body>
-    <h1>mapzip 유저정보를 삭제하는 페이지입니다</h1>
-    <form id="contact-form" action="delete_user_info.html" method="post">
+    <script type="text/javascript" src="admin_all.js"></script>
+    <script type="text/javascript">
+    isLogin();
+    </script>
+    <div class="full-frame">
+        <div class="header-part">
+            <h1>MapZip 관리자 페이지입니다</h1>
+        </div>
+        <div class="center-part">
+            <?php include("nav_contents.html");?>
+            <div class="contents-main">
+                <h2>mapzip 유저정보를 삭제하는 페이지입니다</h2>
+                <form id="contact-form" action="delete_user_info.html" method="post">
         <ul>
             <li>
                 <label >삭제할 사용자 아이디 : </label>
@@ -46,6 +58,11 @@
             }
         }
     </script>
+            </div>
+        </div>
+        <?php include("./foot-contents.html"); ?>
+    
+    
 
     <?php
     if($_POST['do']=="ok"){
@@ -155,6 +172,6 @@
     }
     
     ?>
-
+</div>
 </body>
 </html>

@@ -15,21 +15,52 @@
 		<div class="center-part">
 			<?php include("nav_contents.html");?>
 			<div class="contents-main">
-				<?php
+				<h2>가장 최신상태의 네트워크 프로토콜을 정리합니다.</h2>
+				<table width="800" border="1" cellspacing="0" cellpadding="3">
+					<tr>
+						<th width="300">CODE NAME</th>
+						<th width="100">CODE NUM</th>
+						<th width="400">COMMENT</th>
+					</tr>
+					<?php
+				function getName($one_line){
+					$first_pos = strpos($one_line,"\"");
+					$last_pos = strrpos($one_line,"\"");
+					$result = substr($one_line,$first_pos+1,$last_pos-$first_pos-1);
+					return $result;
+				}
+				function getCodeNum($one_line){
+					$first_pos = strpos($one_line, ",");
+					$last_pos = strrpos($one_line,";");
+					$result = substr($one_line,$first_pos+1,$last_pos-$first_pos-2);
+					return $result;
+				}
+				function getComment($one_line){
+					$comment_line = strstr($one_line,"//");
+					return substr($comment_line,3);
+				}
 				$fp = fopen("../mapzip-state-define.php","r");
 				while( !feof($fp) ){
 					$one_line = fgets($fp);
 					if($one_line[0]=='/'){
-						$doc_data .= "구분 : ".$one_line; 
+						continue; 
 					}
-					else{
-						$doc_data .= $one_line;
+					else if($one_line[0]=='d'){
+						echo("<tr><td>".getName($one_line)."</td>");
+						echo("<td style=\"text-align:center;\">".getCodeNum($one_line)."</td>");
+						echo("<td>".getComment($one_line)."</td></tr>");
+						
+					}else{
+						continue;
 					}
-					$doc_data .="<br>";
+					
 				}
 				fclose($fp);
 				echo $doc_data;
 				?>
+
+				</table>
+				
 			</div>
 		</div>
 		<?php include("./foot-contents.html"); ?>

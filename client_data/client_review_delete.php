@@ -27,6 +27,12 @@ if(!mysqli_query($conn,$sql)){
 	$to_client['state'] = CLIENT_REVIEW_DATA_DELETE_FAIL;
 }else{
 	$to_client['state'] = CLIENT_REVIEW_DATA_DELETE_SUCCESS;
+	$sql = "UPDATE ".USER_TABLE. " SET total_review = total_review - 1 WHERE userid = '{$value['user_id']}'";
+	if(!mysqli_query($conn,$sql)){
+		$to_client['total_review_state'] = "fail";
+	}else{
+		$to_client['total_review_state'] = "success";
+	}
 	
 	if($image_num!=0){
 		$target_dir_name = "./client_{$value['user_id']}_{$value['map_id']}_{$value['store_id']}";

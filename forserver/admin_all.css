@@ -19,7 +19,7 @@ padding: 50px;
 }
 .center-part{
     overflow: hidden;
-
+    background-color: #F3F3E0;
 }
 .nav_menu{
     float: top;
@@ -55,4 +55,7 @@ padding: 50px;
 .contents-main{
     float: left;
     padding: 10px;
+
+
+    
 }

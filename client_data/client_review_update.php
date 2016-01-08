@@ -13,13 +13,14 @@ else{
 //echo "connect success!\n";
 }
 
-$sql = "UPDATE ".REVIEW_TABLE."{$value['user_id']} SET map_id = {$value['map_id']}, review_emotion = {$value['review_emotion']}, review_text = '{$value['review_text']}' WHERE pid = {$value['store_id']}";
+$sql = "UPDATE ".REVIEW_TABLE."{$value['user_id']} SET map_id = {$value['map_id']}, review_emotion = {$value['review_emotion']}, review_text = '{$value['review_text']}', image_num = {$value['image_num']} WHERE pid = {$value['store_id']}";
 
 if(!mysqli_query($conn,$sql)){
 		// insert fail
-	$to_client['state'] = $sql;
+	$to_client['state'] = CLIENT_REVIEW_DATA_UPDATE_FAIL;
 }else{
-	$to_client['state'] = "complete";
+
+	$to_client['state'] = CLIENT_REVIEW_DATA_UPDATE_SUCCESS;
 }
 echo json_encode($to_client);
 

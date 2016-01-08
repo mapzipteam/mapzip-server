@@ -66,7 +66,7 @@ function SearchInClient($conn,$user_id,$user_name,$target_word){
 	$sql = "SELECT * FROM ".CLIENT_TABLE.$user_id;
 	if(!$result = mysqli_query($conn,$sql)){
 	//echo "query fail...\n";
-		$to_client['state']=$sql;
+		$to_client['state']=MAP_SEARCH_FAIL;
 	}
 
 	while($row = mysqli_fetch_assoc($result)){

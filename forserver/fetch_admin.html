@@ -5,6 +5,7 @@
     <meta charset="utf-8" />
     
     <link rel="stylesheet" href="admin_all.css">
+    <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
     <style type="text/css">
     #old_fetch_contents{
         border: 1px solid #eee;
@@ -53,7 +54,7 @@
         function update_new(){
             alert("새로운 공지사항을 반영하였습니다");
         }
-        
+        $(".header-part h1").animate({opacity:'0.5'},'slow');
     </script>
     <?php
     include("../fmysql.php");

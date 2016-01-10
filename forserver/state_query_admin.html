@@ -5,6 +5,7 @@
     <meta charset="utf-8" />
     
     <link rel="stylesheet" href="admin_all.css">
+    <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
     <title>관리자페이지</title>
 </head>
 <body>
@@ -65,6 +66,15 @@
 		</div>
 		<?php include("./foot-contents.html"); ?>
 	</div>
+	<script type="text/javascript">
+	$('tr').mouseenter(function(){
+		$(this).css('background-color','#33ff33');
+	});
+	$('tr').mouseleave(function(){
+		$(this).css('background-color','#F3F3E0');
+	});
+	
+	</script>
 	
 	
 	

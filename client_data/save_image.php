@@ -1,9 +1,7 @@
 
 <?php 
-
 include("../mapzip-state-define.php");
-$user_id = $_POST['userid'];
-$map_id = $_POST['map_id'];
+
 
 
 // $uploaddir = "./client_{$_POST['userid']}_{$_POST['map_id']}_{$_POST['store_name']}|{$_POST['store_cx']}|{$_POST['store_cy']}"; 
@@ -27,16 +25,23 @@ else{
 }
 
 function file_upload($uploadfile){
-	if(move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)){
-		print "성공적으로 업로드 되었습니다.";
-	} 
-	//print_r($_FILES); 
-	else {
-		print "파일 업로드 실패 uploadfile : {$uploadfile}";
+	// if(move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)){
+	// 	print "성공적으로 업로드 되었습니다.";
+	// } 
+	// //print_r($_FILES); 
+	// else {
+	// 	print "파일 업로드 실패 uploadfile : {$uploadfile}";
 
+	// }
+	// echo '자세한 디버깅 정보입니다:';
+	// print_r($_FILES);
+	//echo($image_string);
+	if(file_put_contents($uploadfile, base64_decode($_POST['image_string']))){
+		echo("upload success");
+	}else{
+		echo("upload fail..");
+		print_r($_POST);
 	}
-	echo '자세한 디버깅 정보입니다:';
-	print_r($_FILES);
 
 }
 

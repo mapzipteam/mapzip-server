@@ -2,9 +2,9 @@
 <?php 
 include("../mapzip-state-define.php");
 
+if($_SERVER["REQUEST_METHOD"] == "POST"){
 
-
-// $uploaddir = "./client_{$_POST['userid']}_{$_POST['map_id']}_{$_POST['store_name']}|{$_POST['store_cx']}|{$_POST['store_cy']}"; 
+	// $uploaddir = "./client_{$_POST['userid']}_{$_POST['map_id']}_{$_POST['store_name']}|{$_POST['store_cx']}|{$_POST['store_cy']}"; 
 $uploaddir = "./client_{$_POST['userid']}_{$_POST['map_id']}_{$_POST['store_id']}"; 
 // $uploadfile = $uploaddir.basename($_FILES['userfile']['name']); 
 
@@ -23,6 +23,11 @@ else{
 	file_upload($uploadfile);
 
 }
+}else{
+	echo("not post request");
+}
+
+
 
 function file_upload($uploadfile){
 	// if(move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)){

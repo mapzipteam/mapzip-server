@@ -7,12 +7,15 @@ define("NON_KNOWN_ERROR",-1); // 알수없는 에러
 define("DB_CONNECTION_ERROR",101); // db connection error
 define("SQL_QUERY_ERROR",103); // sql query fail 
 
-// state define 200~ : about Login/Join
+// state define 200~ : about Login/Join / Leave
 define("LOGIN_SUCCESS",200); // 로그인 성공
 define("LOGIN_FAIL",201); // 로그인 실패
 define("JOIN_SUCCESS",210); // 회원가입 성공
 define("JOIN_FAIL_ALREADY_ERROR",211); // 이미 가입한 이력이 있음
 define("JOIN_FAIL_INSERT_ERROR",212); // 회원가입자료가 db에 삽입이 안됨 
+define("LEAVE_ALL_SUCCESS",221); // 회원 탈퇴 모든 단계를 빠짐없이 성공
+define("LEAVE_ERROR_IGNORE",222); // 회원 탈퇴 수행중 무시할 수 있는 오류가 발생(로그확인부탁)
+define("LEAVE_FAIL_SERIOUS",223); // 회원 탈퇴 중 치명적 오류 발생
 
 // state define 500~ : about map_search
 define("MAP_SEARCH_SUCCESS",501); // 다른사용자의 지도의 해쉬테그 조회성공
@@ -37,18 +40,14 @@ define("CLIENT_REVIEW_IMAGE_RMDIR_FAIL",632);  // 리뷰 이미지 데이터 및
 define("CLIENT_REVIEW_DATA_UPDATE_FAIL",641);  // 리뷰 텍스트 데이터 갱신 오류
 
 
-
 // state define 700~ : about client_data/map_meta
 define("CLIENT_REVIEW_META_DOWN_SUCCESS",701); // 가게 위경도, 가게 이름 정보 전달 성공, 로그인 성공 까지
 define("CLIENT_REVIEW_META_DOWN_EMPTY",711); // 가게 위경도, 가게 이름이 해당 지도에 없음
 
 define("CLIENT_REVIEW_DETAIL_DOWN_SUCCESS",702); // map_detail 성공 
 
-
-
 // state define 800~ : about friend_home.php
 define("FRIEND_HOME_SUCCESS",801); // 친구 홈 정보 받기 성공
-
 
 // state define 900~ : about friend_show.php
 define("FRIEND_ITEM_SHOW_SUCCESS", 901); // success to show user's friend list

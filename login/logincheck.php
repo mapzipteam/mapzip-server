@@ -75,6 +75,10 @@ if($username = loginOK($user_id,$user_pw,$result)){
 		$map_id = $row['map_id'];
 		$to_client['gu_enroll_num']["{$map_id}"]["{$gu_num}"]+=1;
 	}
+	$sql = "UPDATE ".GCM_TABLE." SET gcm_key = '{$value['gcm_key']}' WHERE user_id = '{$value['userid']}';";
+	if(!mysqli_query($conn,$sql)){
+		$to_client['state'] = USER_GCM_UPDATE_FAIL;
+	}
 	if($is_gu_enroll){
 		$to_client['gu_enroll_num']['state'] = CLIENT_REVIEW_META_DOWN_SUCCESS;
 		

@@ -9,6 +9,9 @@ define("USE_DB","ljs93kr");
 // mysql - mz_user_info
 define("USER_TABLE","mz_user_info");
 
+// mysql - mz_user_gcm
+define("GCM_TABLE","mz_user_gcm");
+
 // mysql, web, admin - mz_update_table
 define("UPDATE_TABLE","mz_update_table");
 

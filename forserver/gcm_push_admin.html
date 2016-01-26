@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    
+    <link rel="stylesheet" href="admin_all.css">
+    <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <style type="text/css">
+    #result_box{
+        border: 1px solid #eee;
+        background-color: #fff;
+        padding: 5px;
+        margin: 5px;
+    }
+
+    </style>
+    <title>관리자페이지</title>
+</head>
+<body>
+    <script type="text/javascript" src="admin_all.js"></script>
+    <script type="text/javascript">
+    isLogin();
+    </script>
+    <div class="full-frame">
+        <div class="header-part">
+            <h1>MapZip 관리자 페이지입니다</h1>
+        </div>
+        <div class="center-part">
+            <?php include("nav_contents.html");?>
+            <div class="contents-main">
+                <h2>GCM 푸시서비스를 보내는 페이지 입니다</h2>
+                <h4>Mapzip 전체 이용자에게 보내는 메세지 입니다</h4>
+                
+                <form id="contact-form" action="gcm_push_admin.html" method="post" onsubmit="alert('Mapzip 모든 유저에게 푸시전송되었습니다');">
+                    <label>PUSH Title : </label>
+                    <input type="text" name="gcm_title" /><br>
+                    <label>PUSH Message : </label><input type="text" name="gcm_message" /><br>
+                    <input type="hidden" name="do" value="ok" />
+                    <input type="submit" value="submit" id="fetch_submit"/>
+                </form>
+                <label>결과 화면 : </label><br>   
+                <div id="result_box"></div>
+                <script type="text/javascript">
+                function show_result(result) {
+                    var box = document.getElementById("result_box");
+                    box.innerHTML = result;
+                }
+                </script>
+                <?php
+                if($_POST['do'] === 'ok'){
+                    include("../gcm_push/gcm_push_all.php");
+                    
+                }
+
+                ?>
+                <script>show_result('<?=$response?>')</script>
+            </div>
+
+
+            
+        </div>
+        <?php include("./foot-contents.html"); ?>
+
+    </div>
+    
+</body>
+</html>

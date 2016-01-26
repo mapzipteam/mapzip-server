@@ -46,6 +46,9 @@ if(joinOK($user_id,$result)){
 
 		$sql = "CREATE TABLE ".REVIEW_TABLE.$user_id." (pid int(11) NOT NULL AUTO_INCREMENT, map_id int(11) NOT NULL, gu_num int(11) NOT NULL, store_x double, store_y double, store_name varchar(255), store_address text, store_contact text, review_emotion int(11), review_text text, image_num int(11), PRIMARY KEY(pid));";
 		mysqli_query($conn,$sql);
+
+		$sql = "INSERT INTO ".GCM_TABLE." (user_id, type) VALUES ('{$value['userid']}', 1);";
+		mysqli_query($conn,$sql);
 		
 		$to_client['state']=JOIN_SUCCESS;
 		$to_client['join']=1;

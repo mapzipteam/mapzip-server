@@ -19,12 +19,6 @@ $to_client['state'] = NON_KNOWN_ERROR;
         $to_client['state_log'] .= "connect mysql success!\n";
     }
     
-    $sql = "SELECT * FROM ".USER_TABLE;
-    if(!$result = mysqli_query($conn,$sql)){
-    //echo "query fail...\n";
-        $to_client['state_log'] .= "user table query fail..\n";
-        $to_client['state'] = LEAVE_FAIL_SERIOUS;
-    }
     // 특정 아이디 관련 테이블들만 삭제
     $to_client['state_log'] .= "target delete\n";
     $to_client['state_log'] .= "userid = {$value['target_id']}\n";
@@ -36,6 +30,13 @@ $to_client['state'] = NON_KNOWN_ERROR;
     else{
         $to_client['state_log'] .= "FAIL : delete {$value['target_id']} from user_info table ..\n";
         $to_client['state'] = LEAVE_FAIL_SERIOUS;
+    }
+    $sql = "DELETE FROM ".GCM_TABLE." WHERE user_id = '{$value['target_id']}' LIMIT 1";
+    if(mysqli_query($conn,$sql)){
+    	$to_client['state_log'] .= "SUCCESS : delete {$value['target_id']} from gcm_table table ..\n";
+    }else{
+    	$to_client['state_log'] .= "FAIL : delete {$value['target_id']} from user_info table ..\n";
+    	$to_client['state'] = LEAVE_FAIL_SERIOUS;
     }
     $sql = "DROP TABLE ".CLIENT_TABLE.$value['target_id'];
     if($result = mysqli_query($conn,$sql)){

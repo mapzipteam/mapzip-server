@@ -33,7 +33,7 @@
             </li>
             <li>
                 <label>비밀번호 : </label>
-                <input type="text" id="password"/>
+                <input type="password" id="password"/>
                 <input type="button" onclick="PassOK()" value="CHECK"/>
                 
             </li>
@@ -60,7 +60,7 @@
     </script>
             </div>
         </div>
-        <?php include("./foot-contents.html"); ?>
+        
     
     
 
@@ -86,6 +86,7 @@
         // 전체 정보 삭제
     echo "total delete <br>";
     while($row = mysqli_fetch_assoc($result)){
+        // delete on user_info table 
         $sql = "DELETE FROM ".USER_TABLE." WHERE userid = '{$row['userid']}' LIMIT 1";
         if($var = mysqli_query($conn,$sql)){
             echo "SUCCESS : delete {$row['userid']} from user_info table ..<br>";
@@ -93,6 +94,17 @@
         else{
             echo "FAIL : delete {$row['userid']} from user_info table ..<br>";
         }
+        
+        // delete on gcm_table
+        $sql = "DELETE FROM ".GCM_TABLE." WHERE user_id = '{$row['userid']}' LIMIT 1";
+        if(mysqli_query($conn,$sql)){
+            echo "SUCCESS : delete {$row['userid']} from user_info table ..<br>";
+        }
+        else{
+            echo "FAIL : delete {$row['userid']} from gcm_table table ..<br>";
+        }
+
+        // drop client_table
         $sql = "DROP TABLE ".CLIENT_TABLE.$row['userid'];
         if($var = mysqli_query($conn,$sql)){
         //echo "query fail...\n";
@@ -101,6 +113,8 @@
         else{
             echo "FAIL : drop table {$row['userid']} from mz_client..<br>";
         }
+
+        // delete image directories
         $sql = "SELECT * FROM ".REVIEW_TABLE.$row['userid'];
         if(!$select_result = mysqli_query($conn,$sql)){
             echo("select query error");
@@ -111,9 +125,11 @@
                     echo("{$direct_path} directory delete complete<br>");
                 }else{
                     echo("{$direct_path} directory delete fail<br>");
+                }
             }
         }
-    }
+
+        // drop review table
         $sql = "DROP TABLE ".REVIEW_TABLE.$row['userid'];
         if($var = mysqli_query($conn,$sql)){
         //echo "query fail...\n";
@@ -137,6 +153,16 @@
     else{
         echo "FAIL : delete {$_POST['target_id']} from user_info table ..<br>";
     }
+     
+     // delete on gcm_table
+    $sql = "DELETE FROM ".GCM_TABLE." WHERE user_id = '{$_POST['target_id']}' LIMIT 1";
+    if(mysqli_query($conn,$sql)){
+        echo "SUCCESS : delete {$_POST['target_id']} from gcm_table table ..<br>";
+    }
+    else{
+        echo "FAIL : delete {$_POST['target_id']} from gcm_table table ..<br>";
+    }
+
     $sql = "DROP TABLE ".CLIENT_TABLE.$_POST['target_id'];
     if($result = mysqli_query($conn,$sql)){
     //echo "query fail...\n";
@@ -172,6 +198,7 @@
     }
     
     ?>
+    <?php include("./foot-contents.html"); ?>
 </div>
 </body>
 </html>

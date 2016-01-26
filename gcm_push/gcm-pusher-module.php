@@ -39,7 +39,7 @@ class GCMPushMessage {
  
     }
  
-    function send($title, $message, $link){
+    function send($title, $message, $extra){
  
         if(!is_array($this->devices) || count($this->devices) == 0){
             $this->error("No devices set");
@@ -52,7 +52,7 @@ class GCMPushMessage {
  
         $fields = array(
             'registration_ids'  => $this->devices,
-            'data'              => array( 'title' => $title, 'message' => $message, 'link' => $link ),
+            'data'              => array( 'title' => $title, 'message' => $message, 'extra' => $extra ),
         ); 
  
  

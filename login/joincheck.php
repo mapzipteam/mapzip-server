@@ -48,7 +48,7 @@ if(joinOK($user_id,$result)){
 		mysqli_query($conn,$sql);
 
 		$sql = "INSERT INTO ".GCM_TABLE." (user_id, type) VALUES ('{$value['userid']}', 1);";
-		mysqli_query($conn,$sql);
+		mysqli_query($conn,$sql);  
 		
 		$to_client['state']=JOIN_SUCCESS;
 		$to_client['join']=1;

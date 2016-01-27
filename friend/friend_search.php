@@ -39,7 +39,7 @@ echo json_encode($to_client);
 
 
 function is_friend($conn,$value){
-	$sql = "SELECT * FROM ".CLIENT_TABLE.$value['userid'];
+	$sql = "SELECT * FROM ".CLIENT_TABLE.$value['user_id'];
 	if(!$result = mysqli_query($conn,$sql)){
 		$to_client['state']=SQL_QUERY_ERROR;
 	}

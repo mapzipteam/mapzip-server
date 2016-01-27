@@ -4,8 +4,8 @@
  
     // 헤더 부분
     $headers = array(
-            'Content-Type:application/json',
-            'Authorization:key=AIzaSyD9qJ9IMJVed2MctQz6SzlpSuTzTJo8k4Q'
+            'Content-Type:application/json'
+            
             );
  
     // 푸시 내용, data 부분을 자유롭게 사용해 클라이언트에서 분기할 수 있음.
@@ -17,7 +17,7 @@
     $arr['registration_ids'][0] = $regid;
  
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, 'https://android.googleapis.com/gcm/send');
+    curl_setopt($ch, CURLOPT_URL, 'http://ljs93kr.cafe24.com/mapzip/test/test_curl.php');
     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

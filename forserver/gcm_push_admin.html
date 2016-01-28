@@ -3,8 +3,8 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
-    
-    <link rel="stylesheet" href="admin_all.css">
+    <link rel="stylesheet" type="text/css" href="static/css/bootstrap.css">
+    <link rel="stylesheet" href="static/css/admin_all.css">
     <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
     <style type="text/css">
     #result_box{
@@ -13,12 +13,16 @@
         padding: 5px;
         margin: 5px;
     }
+    #message_input{
+        width: 250px;
+    }
+
 
     </style>
     <title>관리자페이지</title>
 </head>
 <body>
-    <script type="text/javascript" src="admin_all.js"></script>
+    <script type="text/javascript" src="static/js/admin_all.js"></script>
     <script type="text/javascript">
     isLogin();
     </script>
@@ -32,10 +36,16 @@
                 <h2>GCM 푸시서비스를 보내는 페이지 입니다</h2>
                 <h4>Mapzip 전체 이용자에게 보내는 메세지 입니다</h4>
                 
-                <form id="contact-form" action="gcm_push_admin.html" method="post" onsubmit="alert('Mapzip 모든 유저에게 푸시전송되었습니다');">
-                    <label>PUSH Title : </label>
-                    <input type="text" name="gcm_title" /><br>
-                    <label>PUSH Message : </label><input type="text" name="gcm_message" /><br>
+                <form id="contact-form" action="gcm_push_admin.html" method="post" onsubmit="alert('Mapzip 모든 유저에게 푸시전송되었습니다');" >
+                    <div class="form-group">
+                        <label>PUSH Title : </label>
+                        <input type="text" name="gcm_title" />
+                    </div>
+                    <div class="form-group">
+                        <label>PUSH Message : </label>
+                        <input type="text" name="gcm_message" id="message_input"/>
+                    </div>
+                    
                     <input type="hidden" name="do" value="ok" />
                     <input type="submit" value="submit" id="fetch_submit"/>
                 </form>

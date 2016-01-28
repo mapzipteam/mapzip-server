@@ -3,12 +3,14 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="admin_all.css">
+    <link rel="stylesheet" type="text/css" href="static/css/bootstrap.css">
+    <link rel="stylesheet" href="static/css/admin_all.css">
     
     <title>관리자페이지</title>
 </head>
 <body>
-    <script type="text/javascript" src="admin_all.js"></script>
+    <script type="text/javascript" src="static/js/admin_all.js"></script>
+    <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script type="text/javascript">
     isLogin();
     </script>
@@ -22,13 +24,24 @@
     <?php include("nav_contents.html");?>
     <div class="contents-main">
         <h2>클라이언트로부터 전달된 유저들의 의견을 볼 수 있습니다</h2>
-    
-    <?php
-    include("../fmysql.php");
-    include("../mapzip-mysql-define.php");
-    include("../mapzip-state-define.php");
 
-    if(!$conn = connect_mysqli(MYSQL_IP,MAIN_DB,DB_PASSWORD,USE_DB)){
+        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingOne">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                            내용보기
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                    <div class="panel-body">
+                        <?php
+                        include("../fmysql.php");
+                        include("../mapzip-mysql-define.php");
+                        include("../mapzip-state-define.php");
+
+                        if(!$conn = connect_mysqli(MYSQL_IP,MAIN_DB,DB_PASSWORD,USE_DB)){
         echo "connnection error!\n";
         //$to_client['state']=DB_CONNECTION_ERROR;
     }
@@ -37,7 +50,7 @@
     }
 
     ?>
-    <table width="1100" border="1" cellspacing="0" cellpadding="5">
+    <table class="table table-striped table-bordered table-hover">
         <tr>
             <th width="50">
                 KEY
@@ -82,12 +95,23 @@
 
 
         ?>
-        
     </table>
-    <?php include("./foot-contents.html"); ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+       
+    
+    
+    <script src="static/js/bootstrap.js"></script>
+    
     </div>
     
+    
 </div>
+<?php include("./foot-contents.html"); ?>
 </div>
+
 </body>
 </html>

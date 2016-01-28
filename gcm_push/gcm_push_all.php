@@ -4,6 +4,8 @@ include("gcm-pusher-module.php");
 include("../mapzip-mysql-define.php");
 include("../fmysql.php");
 
+// Required Params  : gcm_title, gcm_message
+
 
 if(!$conn = connect_mysqli(MYSQL_IP,MAIN_DB,DB_PASSWORD,USE_DB)){
 	//echo "connnection error!\n";

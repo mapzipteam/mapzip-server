@@ -3,8 +3,8 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
-    
-    <link rel="stylesheet" href="admin_all.css">
+    <link rel="stylesheet" type="text/css" href="static/css/bootstrap.css">
+    <link rel="stylesheet" href="static/css/admin_all.css">
     <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
     <title>관리자페이지</title>
 </head>
@@ -17,7 +17,7 @@
 			<?php include("nav_contents.html");?>
 			<div class="contents-main">
 				<h2>가장 최신상태의 네트워크 프로토콜을 정리합니다.</h2>
-				<table width="800" border="1" cellspacing="0" cellpadding="3">
+				<table class="table table-bordered table-striped table-hover">
 					<tr>
 						<th width="300">CODE NAME</th>
 						<th width="100">CODE NUM</th>
@@ -67,12 +67,12 @@
 		<?php include("./foot-contents.html"); ?>
 	</div>
 	<script type="text/javascript">
-	$('tr').mouseenter(function(){
-		$(this).css('background-color','#33ff33');
-	});
-	$('tr').mouseleave(function(){
-		$(this).css('background-color','#F3F3E0');
-	});
+	// $('tr').mouseenter(function(){
+	// 	$(this).css('background-color','#33ff33');
+	// });
+	// $('tr').mouseleave(function(){
+	// 	$(this).css('background-color','#F3F3E0');
+	// });
 	
 	</script>
 	

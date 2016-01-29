@@ -2,6 +2,7 @@
 include("../fmysql.php");
 include("../mapzip-state-define.php");
 include("../mapzip-mysql-define.php");
+include("../mapzip-gcm-define.php");
 
 $value = json_decode(file_get_contents('php://input'), true);
 
@@ -32,6 +33,28 @@ if(Enroll_OK($conn,$user_id,$value)){
 			// match success
 			$to_client['store_id']=$row['pid'];
 			$to_client['state'] = CLIENT_REVIEW_DATA_ENROLL_SUCCESS;
+
+			// gcm to this user's followers
+			$headers = array(
+        		'Content-Type:application/json'
+            
+    		);
+			$arr = array();
+			$arr['from_id'] = $value['userid'];
+			$arr['from_name'] = $value['user_name'];
+			
+			$arr['gcm_type'] = WHEN_FRIEND_NEW_REVIEW;
+
+			$ch = curl_init();
+    		curl_setopt($ch, CURLOPT_URL, 'http://ljs93kr.cafe24.com/mapzip/gcm_push/gcm_push_each.php');
+    		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    		curl_setopt($ch, CURLOPT_POST, true);
+    		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    		curl_setopt($ch, CURLOPT_POSTFIELDS,json_encode($arr));
+    		$response = curl_exec($ch);
+    		curl_close($ch);
+    		$to_client['response'] = $response;
 		}
 		else{
 			// match fail

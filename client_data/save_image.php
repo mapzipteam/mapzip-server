@@ -1,35 +1,94 @@
 
 <?php 
+// include("../mapzip-state-define.php");
+
+// if($_SERVER["REQUEST_METHOD"] == "POST"){
+
+// 	// $uploaddir = "./client_{$_POST['userid']}_{$_POST['map_id']}_{$_POST['store_name']}|{$_POST['store_cx']}|{$_POST['store_cy']}"; 
+// $uploaddir = "./client_{$_POST['userid']}_{$_POST['map_id']}_{$_POST['store_id']}"; 
+// // $uploadfile = $uploaddir.basename($_FILES['userfile']['name']); 
+
+// $uploadfile = $uploaddir."/".$_POST['image_name'].".jpg";
+
+// if(file_exists($uploadfile)){
+// 	if(unlink($uploadfile)){
+// 		echo "file delete complete<br>";
+// 		file_upload($uploadfile);
+// 	}
+// 	else{
+// 		echo "file delete fail";
+// 	}
+// }
+// else{
+// 	file_upload($uploadfile);
+
+// }
+// }else{
+// 	echo("not post request");
+// }
+
+
+
+// function file_upload($uploadfile){
+// 	// if(move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)){
+// 	// 	print "성공적으로 업로드 되었습니다.";
+// 	// } 
+// 	// //print_r($_FILES); 
+// 	// else {
+// 	// 	print "파일 업로드 실패 uploadfile : {$uploadfile}";
+
+// 	// }
+// 	// echo '자세한 디버깅 정보입니다:';
+// 	// print_r($_FILES);
+// 	//echo($image_string);
+// 	if(file_put_contents($uploadfile, base64_decode($_POST['image_string']))){
+// 		echo("upload success");
+// 	}else{
+// 		echo("upload fail..");
+// 		print_r($_POST);
+// 	}
+
+// }
+
+ 
 include("../mapzip-state-define.php");
+
+
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
 
+
+	$value = json_decode(file_get_contents('php://input'), true);
+
+	$to_client['state_log'] = "default";
+
 	// $uploaddir = "./client_{$_POST['userid']}_{$_POST['map_id']}_{$_POST['store_name']}|{$_POST['store_cx']}|{$_POST['store_cy']}"; 
-$uploaddir = "./client_{$_POST['userid']}_{$_POST['map_id']}_{$_POST['store_id']}"; 
+$uploaddir = "./client_{$value['userid']}_{$value['map_id']}_{$value['store_id']}"; 
 // $uploadfile = $uploaddir.basename($_FILES['userfile']['name']); 
 
-$uploadfile = $uploaddir."/".$_POST['image_name'].".jpg";
+$uploadfile = $uploaddir."/".$value['image_name'].".jpg";
 
 if(file_exists($uploadfile)){
 	if(unlink($uploadfile)){
-		echo "file delete complete<br>";
-		file_upload($uploadfile);
+		$to_client['state_log'] .= "file delete complete<br>";
+		file_upload($uploadfile,$to_client,$value);
 	}
 	else{
-		echo "file delete fail";
+		$to_client['state_log'] .= "file delete fail";
 	}
 }
 else{
-	file_upload($uploadfile);
+	file_upload($uploadfile,$to_client,$value);
 
 }
 }else{
-	echo("not post request");
+	$to_client['state_log'] .= "not post request";
 }
+echo json_encode($to_client);
 
 
 
-function file_upload($uploadfile){
+function file_upload($uploadfile,$to_client,$value){
 	// if(move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)){
 	// 	print "성공적으로 업로드 되었습니다.";
 	// } 
@@ -41,14 +100,16 @@ function file_upload($uploadfile){
 	// echo '자세한 디버깅 정보입니다:';
 	// print_r($_FILES);
 	//echo($image_string);
-	if(file_put_contents($uploadfile, base64_decode($_POST['image_string']))){
-		echo("upload success");
+	if(file_put_contents($uploadfile, base64_decode($value['image_string']))){
+		$to_client['state_log'] .= "upload success";
 	}else{
-		echo("upload fail..");
-		print_r($_POST);
+		$to_client['state_log'] .= "upload fail..";
+		$to_client['state_log'] .= $value;
 	}
 
 }
+
+
 
 
 ?> 

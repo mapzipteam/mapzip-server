@@ -3,6 +3,7 @@
 include("../fmysql.php");
 include("../mapzip-mysql-define.php");
 include("../mapzip-state-define.php");
+include("../mapzip-gcm-define.php");
 
 $value = json_decode(file_get_contents('php://input'), true);
 
@@ -14,31 +15,39 @@ else{
 //echo "connect success!\n";
 }
 
-$sql = "INSERT INTO ".CLIENT_TABLE.$value['user_id']." ( type, friend_id, created) VALUES (2,'{$value['friend_id']}',now())";
+$sql = "INSERT INTO ".CLIENT_TABLE.$value['user_id']." ( type, friend_id, created) VALUES (".CLIENT_TYPE_FRIEND.",'{$value['friend_id']}',now())";
 
 if(!$result = mysqli_query($conn,$sql)){
 	//echo "query fail...\n";
-	$to_client['state']=$sql;
+	$to_client['state_log']=$sql;
 }
 else{
 	$to_client['state']="insert success";
-	$headers = array(
+	$sql = "INSERT INTO ".CLIENT_TABLE.$value['friend_id']." (type, friend_id, created) VALUES (".CLIENT_TYPE_FRIEND_ADDED.",'{$value['user_id']}', now())";
+	if(!$result = mysqli_query($conn,$sql)){
+		$to_client['state_log'] = $sql;
+	}else{
+		$headers = array(
         'Content-Type:application/json'
             
-    );
-	$arr = array();
-	$arr['from_name'] = $value['user_name'];
-	$arr['to_id'] = $value['friend_id'];
+    	);
+		$arr = array();
+		$arr['from_name'] = $value['user_name'];
+		$arr['to_id'] = $value['friend_id'];
+		$arr['gcm_type'] = WHEN_ADD_FRIEND;
 
-	$ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, 'http://ljs93kr.cafe24.com/mapzip/gcm_push/gcm_push_each.php');
-    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($ch, CURLOPT_POSTFIELDS,json_encode($arr));
-    $response = curl_exec($ch);
-    curl_close($ch);
+		$ch = curl_init();
+    	curl_setopt($ch, CURLOPT_URL, 'http://ljs93kr.cafe24.com/mapzip/gcm_push/gcm_push_each.php');
+    	curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    	curl_setopt($ch, CURLOPT_POST, true);
+    	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    	curl_setopt($ch, CURLOPT_POSTFIELDS,json_encode($arr));
+    	$response = curl_exec($ch);
+    	curl_close($ch);
+
+	}
+	
 }
 
 echo json_encode($to_client);

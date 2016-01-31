@@ -63,7 +63,7 @@ echo json_encode($to_client);
 function SearchInClient($conn,$user_id,$user_name,$target_word){
 	
 
-	$sql = "SELECT * FROM ".CLIENT_TABLE.$user_id;
+	$sql = "SELECT * FROM ".CLIENT_TABLE." WHERE user_id = '{$user_id}'";
 	if(!$result = mysqli_query($conn,$sql)){
 	//echo "query fail...\n";
 		$to_client['state']=MAP_SEARCH_FAIL;

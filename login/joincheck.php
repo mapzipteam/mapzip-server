@@ -7,7 +7,7 @@ include("../mapzip-state-define.php");
 
 $value = json_decode(file_get_contents('php://input'), true);
 
-$to_client = array('state'=>NON_KNOWN_ERROR,'login'=>0,'username'=>"");
+$to_client = array('state'=>NON_KNOWN_ERROR,'login'=>0);
 
 
 $user_id = $value['userid'];
@@ -36,16 +36,18 @@ if(joinOK($user_id,$result)){
 		
 
 		//$sql = "CREATE TABLE mz_mapmeta_".$user_id." ( pid int(11) NOT NULL AUTO_INCREMENT, title varchar(255) NOT NULL, category int(11) NOT NULL, created datetime NOT NULL, PRIMARY KEY(pid));";
-		$sql = "CREATE TABLE ".CLIENT_TABLE.$user_id." ( pid int(11) NOT NULL AUTO_INCREMENT, type int(11) NOT NULL, title varchar(255) , category int(11) , hash_tag text , friend_id varchar(255),  created datetime NOT NULL, PRIMARY KEY(pid));";
+		//$sql = "CREATE TABLE ".CLIENT_TABLE.$user_id." ( pid int(11) NOT NULL AUTO_INCREMENT, type int(11) NOT NULL, title varchar(255) , category int(11) , hash_tag text , friend_id varchar(255),  created datetime NOT NULL, PRIMARY KEY(pid));";
+		//mysqli_query($conn,$sql);
+		
+		$sql = "INSERT INTO ".CLIENT_TABLE." (user_id, map_id, type, title, category, hash_tag, created) VALUES ('{$user_id}', 1, 1, '나만의 지도1',1,'#해#쉬#태#그#맛집',now())";
+		if(!mysqli_query($conn,$sql)){
+			$to_client['state_log'] = $sql;
+		}
+		$sql = "INSERT INTO ".CLIENT_TABLE." (user_id, map_id, type, title, category, hash_tag, created) VALUES ('{$user_id}', 2, 1, '나만의 지도2',1,'#해#쉬#태#그#맛집',now())";
+		mysqli_query($conn,$sql);
 
-		mysqli_query($conn,$sql);
-		$sql = "INSERT INTO ".CLIENT_TABLE.$user_id." (type, title, category, hash_tag, created) VALUES (1, '나만의 지도1',1,'#해#쉬#태#그#맛집',now())";
-		mysqli_query($conn,$sql);
-		$sql = "INSERT INTO ".CLIENT_TABLE.$user_id." (type, title, category, hash_tag, created) VALUES (1, '나만의 지도2',1,'#해#쉬#태#그#맛집',now())";
-		mysqli_query($conn,$sql);
-
-		$sql = "CREATE TABLE ".REVIEW_TABLE.$user_id." (pid int(11) NOT NULL AUTO_INCREMENT, map_id int(11) NOT NULL, gu_num int(11) NOT NULL, store_x double, store_y double, store_name varchar(255), store_address text, store_contact text, review_emotion int(11), review_text text, image_num int(11), PRIMARY KEY(pid));";
-		mysqli_query($conn,$sql);
+		//$sql = "CREATE TABLE ".REVIEW_TABLE.$user_id." (pid int(11) NOT NULL AUTO_INCREMENT, map_id int(11) NOT NULL, gu_num int(11) NOT NULL, store_x double, store_y double, store_name varchar(255), store_address text, store_contact text, review_emotion int(11), review_text text, image_num int(11), PRIMARY KEY(pid));";
+		//mysqli_query($conn,$sql);
 
 		$sql = "INSERT INTO ".GCM_TABLE." (user_id, type) VALUES ('{$value['userid']}', 1);";
 		mysqli_query($conn,$sql);  

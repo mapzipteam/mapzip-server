@@ -18,7 +18,7 @@ $user_id = $value['userid'];
 
 if(Enroll_OK($conn,$user_id,$value)){
 	// enroll ok
-	$sql = "INSERT INTO ".REVIEW_TABLE.$user_id." (map_id, gu_num, store_x, store_y, store_name, store_address, store_contact, review_emotion, review_text, image_num) VALUES ({$value['map_id']}, {$value['gu_num']}, {$value['store_x']}, {$value['store_y']}, '{$value['store_name']}','{$value['store_address']}','{$value['store_contact']}',{$value['review_emotion']},'{$value['review_text']}', {$value['image_num']})";
+	$sql = "INSERT INTO ".REVIEW_TABLE." (user_id, map_id, gu_num, store_x, store_y, store_name, store_address, store_contact, review_emotion, review_text, image_num) VALUES ('{$user_id}', {$value['map_id']}, {$value['gu_num']}, {$value['store_x']}, {$value['store_y']}, '{$value['store_name']}','{$value['store_address']}','{$value['store_contact']}',{$value['review_emotion']},'{$value['review_text']}', {$value['image_num']})";
 	if(!mysqli_query($conn,$sql)){
 		// insert fail
 		$to_client['state'] = $sql;
@@ -27,7 +27,7 @@ if(Enroll_OK($conn,$user_id,$value)){
 		$sql = "UPDATE ".USER_TABLE." SET total_review = total_review+1 WHERE userid = '{$user_id}'";
 		$result = mysqli_query($conn,$sql);
 		
-		$sql = "SELECT pid FROM ".REVIEW_TABLE.$user_id." WHERE store_x = {$value['store_x']} AND store_y = {$value['store_y']} AND store_name = '{$value['store_name']}'";
+		$sql = "SELECT pid FROM ".REVIEW_TABLE." WHERE user_id = '{$user_id}' and store_x = {$value['store_x']} AND store_y = {$value['store_y']} AND store_name = '{$value['store_name']}'";
 		$result = mysqli_query($conn,$sql);
 		if($row = mysqli_fetch_assoc($result)){
 			// match success
@@ -75,7 +75,7 @@ echo json_encode($to_client);
 
 
 function Enroll_OK($conn,$user_id,$value){
-	$sql = "SELECT * FROM ".REVIEW_TABLE.$user_id;
+	$sql = "SELECT * FROM ".REVIEW_TABLE." WHERE user_id = '{$user_id}'";
 	if(!$result = mysqli_query($conn,$sql)){
 		$to_client['state'] = $sql;
 	}

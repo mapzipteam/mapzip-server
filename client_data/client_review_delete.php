@@ -13,7 +13,7 @@ if(!$conn = connect_mysqli(MYSQL_IP,MAIN_DB,DB_PASSWORD,USE_DB)){
 else{
 //echo "connect success!\n";
 }
-$sql = "SELECT pid, image_num FROM ".REVIEW_TABLE."{$value['user_id']} WHERE pid = {$value['store_id']}";
+$sql = "SELECT pid, image_num FROM ".REVIEW_TABLE." WHERE user_id = '{$value['user_id']}' and pid = {$value['store_id']}";
 if(!$result = mysqli_query($conn,$sql)){
 	$to_client['state'] = SQL_QUERY_ERROR;
 }else{
@@ -21,7 +21,7 @@ if(!$result = mysqli_query($conn,$sql)){
 	$image_num = $row['image_num'];
 }
 
-$sql = "DELETE FROM ".REVIEW_TABLE."{$value['user_id']} WHERE pid = {$value['store_id']}";
+$sql = "DELETE FROM ".REVIEW_TABLE." WHERE user_id = '{$value['user_id']}' and pid = {$value['store_id']}";
 if(!mysqli_query($conn,$sql)){
 		// insert fail
 	$to_client['state'] = CLIENT_REVIEW_DATA_DELETE_FAIL;

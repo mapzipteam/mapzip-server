@@ -39,17 +39,17 @@ echo json_encode($to_client);
 
 
 function is_friend($conn,$value){
-	$sql = "SELECT * FROM ".CLIENT_TABLE.$value['user_id'];
+	$sql = "SELECT * FROM ".FRIEND_TABLE." WHERE from_id = '{$value['user_id']}'";
 	if(!$result = mysqli_query($conn,$sql)){
 		$to_client['state']=SQL_QUERY_ERROR;
 	}
 	while($row = mysqli_fetch_assoc($result)){
-		if($row['type'] == CLIENT_TYPE_FRIEND){
-			if(strcmp($value['friend_id'],$row['friend_id'])==0){
+		
+			if(strcmp($value['friend_id'],$row['to_id'])==0){
 				return true;
 			}
 
-		}
+		
 	}
 	return false;
 }

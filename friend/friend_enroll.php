@@ -15,18 +15,15 @@ else{
 //echo "connect success!\n";
 }
 
-$sql = "INSERT INTO ".CLIENT_TABLE.$value['user_id']." ( type, friend_id, created) VALUES (".CLIENT_TYPE_FRIEND.",'{$value['friend_id']}',now())";
-
+//$sql = "INSERT INTO ".CLIENT_TABLE.$value['user_id']." ( type, friend_id, created) VALUES (".CLIENT_TYPE_FRIEND.",'{$value['friend_id']}',now())";
+$sql = "INSERT INTO ".FRIEND_TABLE." (from_id, to_id) VALUES ('{$value['user_id']}', '{$value['friend_id']}');";
 if(!$result = mysqli_query($conn,$sql)){
 	//echo "query fail...\n";
 	$to_client['state_log']=$sql;
 }
 else{
 	$to_client['state']="insert success";
-	$sql = "INSERT INTO ".CLIENT_TABLE.$value['friend_id']." (type, friend_id, created) VALUES (".CLIENT_TYPE_FRIEND_ADDED.",'{$value['user_id']}', now())";
-	if(!$result = mysqli_query($conn,$sql)){
-		$to_client['state_log'] = $sql;
-	}else{
+	
 		$headers = array(
         'Content-Type:application/json'
             
@@ -46,7 +43,7 @@ else{
     	$response = curl_exec($ch);
     	curl_close($ch);
 
-	}
+	
 	
 }
 

@@ -23,7 +23,7 @@ $title = $value['title'];
 $category = $value['category'];
 $hash_tag = $value['hash_tag'];
 
-$sql = "UPDATE ".CLIENT_TABLE.$user_id." SET title = '".$title."', category = ".$category.", hash_tag = '".$hash_tag."' where pid = ".$map_id;
+$sql = "UPDATE ".CLIENT_TABLE." SET title = '".$title."', category = ".$category.", hash_tag = '".$hash_tag."' where user_id = '{$user_id}' and map_id = ".$map_id;
 
 if(!$result = mysqli_query($conn,$sql)){
 	$to_client['state']=$sql;
@@ -32,15 +32,16 @@ if(!$result = mysqli_query($conn,$sql)){
 UpdateUserInfoHashtag($conn,$user_id,$map_id,$hash_tag);
 
 
-$sql = "SELECT * FROM ".CLIENT_TABLE.$user_id;
+$sql = "SELECT * FROM ".CLIENT_TABLE." WHERE user_id = '{$user_id}'";
 
 if(!$result = mysqli_query($conn,$sql)){
 	$to_client['state']=SQL_QUERY_ERROR;
+	$to_client['state_log'] = $sql;
 }
 while($row = mysqli_fetch_assoc($result)){
 	if($row['type']==CLIENT_TYPE_MAPMETA){
 		$map_object = new Map_Metainfo;
-		$map_object->map_id = $row['pid'];
+		$map_object->map_id = $row['map_id'];
 		$map_object->title = $row['title'];
 		$map_object->category = $row['category'];			
 		$map_object->hash_tag = $row['hash_tag'];
@@ -59,7 +60,7 @@ class Map_Metainfo{
 }
 
 function UpdateUserInfoHashtag($conn,$user_id,$map_id,$hash_tag){
-	$sql = "SELECT * FROM ".CLIENT_TABLE.$user_id;
+	$sql = "SELECT * FROM ".CLIENT_TABLE." WHERE user_id = '{$user_id}'";
 	if(!$result = mysqli_query($conn,$sql)){
 		$to_client['state']="update userinfo error";
 	}

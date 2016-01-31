@@ -13,7 +13,7 @@ else{
 //echo "connect success!\n";
 }
 
-$sql = "SELECT * FROM ".REVIEW_TABLE.$value['userid'];
+$sql = "SELECT * FROM ".REVIEW_TABLE." WHERE user_id = '{$value['userid']}'";
 
 
 if(!$result = mysqli_query($conn,$sql)){

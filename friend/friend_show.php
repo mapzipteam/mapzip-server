@@ -20,7 +20,7 @@ $more = $value['more'];
 $more *= $contents_count;
 
 
-$sql = "SELECT * FROM ".CLIENT_TABLE.$value['userid'];
+$sql = "SELECT * FROM ".FRIEND_TABLE." WHERE from_id = '{$value['userid']}'";
 
 
 if(!$result = mysqli_query($conn,$sql)){
@@ -31,7 +31,7 @@ else{
 	$to_client['friend_list'] = array();
 	$is_friend_item = 0;
 	while($row = mysqli_fetch_assoc($result)){
-		if($row['type'] == CLIENT_TYPE_FRIEND){
+		
 			// only friend info
 			if($more>0){
 				$more -= 1;
@@ -42,7 +42,7 @@ else{
 			}
 			$is_friend_item = 1;
 			$friend_object = new Friend_Item;
-			$sql_2 = "SELECT * FROM ".USER_TABLE." WHERE userid = '{$row['friend_id']}'";
+			$sql_2 = "SELECT * FROM ".USER_TABLE." WHERE userid = '{$row['to_id']}'";
 			$result2 = mysqli_query($conn,$sql_2);
 			$row2 = mysqli_fetch_assoc($result2);
 			$friend_object->user_id = $row2['userid'];
@@ -50,7 +50,7 @@ else{
 			$friend_object->total_review = $row2['total_review'];
 			array_push($to_client['friend_list'], $friend_object);
 			$contents_count -= 1;
-		}
+		
 
 	}
 	if($is_friend_item==0){

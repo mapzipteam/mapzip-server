@@ -45,11 +45,12 @@ if($value['gcm_type'] === WHEN_ADD_FRIEND){
 	$extra['customkey1'] = "custom_key1";
 	$extra['customkey2'] = "custom_key2";
 
-	$client_table = CLIENT_TABLE.$value['from_id'];
+	$friend_table = FRIEND_TABLE;
 	$gcm_table = GCM_TABLE;
-	$added_friend_type = CLIENT_TYPE_FRIEND_ADDED;
+	$target_id = $value['from_id'];
+	
 
-	$sql = "SELECT {$client_table}.friend_id, {$gcm_table}.gcm_key FROM {$client_table} INNER JOIN {$gcm_table} ON {$client_table}.type = {$added_friend_type} and {$client_table}.friend_id = {$gcm_table}.user_id";
+	$sql = "SELECT {$friend_table}.from_id, {$gcm_table}.gcm_key FROM {$friend_table} INNER JOIN {$gcm_table} ON {$friend_table}.to_id = '{$target_id}' and {$friend_table}.from_id = {$gcm_table}.user_id";
 	if(!$result = mysqli_query($conn,$sql)){
 		echo "CLIENT_TABLE select fail..";
 	}else{

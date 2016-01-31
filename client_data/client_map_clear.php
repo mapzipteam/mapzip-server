@@ -16,12 +16,12 @@ if(!$conn = connect_mysqli(MYSQL_IP,MAIN_DB,DB_PASSWORD,USE_DB)){
 else{
     $to_client['state_log'] .= "connect mysql success!\n";
 }
-$sql = "DELETE FROM ".REVIEW_TABLE."{$value['user_id']} WHERE map_id = '{$value['map_id']}'";
+$sql = "DELETE FROM ".REVIEW_TABLE." WHERE user_id = '{$value['user_id']}' and map_id = {$value['map_id']}";
 if(!mysqli_query($conn,$sql)){
 	$to_client['state_log'] .= $sql;
 }else{
 	$to_client['state_log'] = "delete review table success";
-	$sql = "SELECT count(*) as new_total_review FROM ".REVIEW_TABLE.$value['user_id'];
+	$sql = "SELECT count(*) as new_total_review FROM ".REVIEW_TABLE." WHERE user_id = '{$value['user_id']}'";
 	if(!$result = mysqli_query($conn,$sql)){
 		$to_client['state_log'] .= $sql;
 	}else{

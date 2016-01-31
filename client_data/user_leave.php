@@ -31,24 +31,33 @@ $to_client['state'] = NON_KNOWN_ERROR;
         $to_client['state_log'] .= "FAIL : delete {$value['target_id']} from user_info table ..\n";
         $to_client['state'] = LEAVE_FAIL_SERIOUS;
     }
-    $sql = "DELETE FROM ".GCM_TABLE." WHERE user_id = '{$value['target_id']}' LIMIT 1";
+    $sql = "DELETE FROM ".GCM_TABLE." WHERE user_id = '{$value['target_id']}'";
     if(mysqli_query($conn,$sql)){
     	$to_client['state_log'] .= "SUCCESS : delete {$value['target_id']} from gcm_table table ..\n";
     }else{
-    	$to_client['state_log'] .= "FAIL : delete {$value['target_id']} from user_info table ..\n";
+    	$to_client['state_log'] .= $sql;
     	$to_client['state'] = LEAVE_FAIL_SERIOUS;
     }
-    $sql = "DROP TABLE ".CLIENT_TABLE.$value['target_id'];
-    if($result = mysqli_query($conn,$sql)){
-    //echo "query fail...\n";
-        $to_client['state_log'] .= "SUCCESS : drop table {$value['target_id']} from mz_client...\n";
-    }
-    else{
-        $to_client['state_log'] .= "FAIL : drop table {$value['target_id']} from mz_client..\n";
+
+    $sql = "DELETE FROM ".FRIEND_TABLE." WHERE from_id = '{$value['target_id']}' or to_id = '{$value['target_id']}'";
+    if(mysqli_query($conn,$sql)){
+        $to_client['state_log'] .= "SUCCESS : delete {$value['target_id']} from friend_table table ..\n";
+    }else{
+        $to_client['state_log'] .= $sql;
         $to_client['state'] = LEAVE_FAIL_SERIOUS;
     }
     
-    $sql = "SELECT * FROM ".REVIEW_TABLE.$value['target_id'];
+    $sql = "DELETE FROM ".CLIENT_TABLE." WHERE user_id = '{$value['target_id']}'";
+    if($result = mysqli_query($conn,$sql)){
+    //echo "query fail...\n";
+        $to_client['state_log'] .= "SUCCESS : delete row {$value['target_id']} from mz_client...\n";
+    }
+    else{
+        $to_client['state_log'] .= "FAIL : delete row {$value['target_id']} from mz_client..\n";
+        $to_client['state'] = LEAVE_FAIL_SERIOUS;
+    }
+    
+    $sql = "SELECT * FROM ".REVIEW_TABLE." WHERE user_id = '{$value['target_id']}'";
     if(!$result = mysqli_query($conn,$sql)){
         $to_client['state_log'] .= "select query error\n";
     }else{
@@ -63,18 +72,19 @@ $to_client['state'] = NON_KNOWN_ERROR;
         }
     }
     
-    $sql = "DROP TABLE ".REVIEW_TABLE.$value['target_id'];
+    $sql = "DELETE FROM ".REVIEW_TABLE." WHERE user_id = '{$value['target_id']}'";
     if($result = mysqli_query($conn,$sql)){
     //echo "query fail...\n";
-        $to_client['state_log'] .= "SUCCESS : drop table {$value['target_id']} from mz_review...\n";
+        $to_client['state_log'] .= "SUCCESS : delete row {$value['target_id']} from mz_review...\n";
         if(($to_client['state'] != LEAVE_FAIL_SERIOUS) || ($to_client['state'] != LEAVE_ERROR_IGNORE)){
         	$to_client['state'] = LEAVE_ALL_SUCCESS;
         }
     }
     else{
-        $to_client['state_log'] .= "FAIL : drop table {$value['target_id']} from mz_review..\n";
+        $to_client['state_log'] .= "FAIL : delete row {$value['target_id']} from mz_review..\n";
         $to_client['state'] = LEAVE_FAIL_SERIOUS;
     }
+    
     echo(json_encode($to_client));
 
     

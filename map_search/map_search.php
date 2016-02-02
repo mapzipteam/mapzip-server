@@ -18,7 +18,8 @@ if(!$conn = connect_mysqli(MYSQL_IP,MAIN_DB,DB_PASSWORD,USE_DB)){
 	$to_client['state']=DB_CONNECTION_ERROR;
 }
 
-$sql = "SELECT * FROM ".USER_TABLE;
+//$sql = "SELECT * FROM ".USER_TABLE;
+$sql = "SELECT * FROM ".CLIENT_TABLE." WHERE user_id <> '{$value['user_id']}'";
 
 if(!$result = mysqli_query($conn,$sql)){
 	//echo "query fail...\n";
@@ -39,7 +40,14 @@ while($row = mysqli_fetch_assoc($result)){
 		if($contents_count<=0){
 			break;
 		}
-		$search_object = SearchInClient($conn,$row['userid'],$row['username'],$target_word);
+		$search_object = new Map_Search;
+		$search_object->user_id = $row['user_id'];
+		$search_object->category = $row['category'];
+		$search_object->hash_tag = $row['hash_tag'];
+		$sql2 = "SELECT userid, username FROM ".USER_TABLE." WHERE userid = '{$row['user_id']}'";
+		$result2 = mysqli_query($conn,$sql2);
+		$row2 = mysqli_fetch_assoc($result2);
+		$search_object->user_name = $row2['username'];
 		array_push($to_client['map_search'],$search_object);
 
 		$contents_count -= 1;
@@ -60,30 +68,6 @@ else{
 
 echo json_encode($to_client);
 
-function SearchInClient($conn,$user_id,$user_name,$target_word){
-	
-
-	$sql = "SELECT * FROM ".CLIENT_TABLE." WHERE user_id = '{$user_id}'";
-	if(!$result = mysqli_query($conn,$sql)){
-	//echo "query fail...\n";
-		$to_client['state']=MAP_SEARCH_FAIL;
-	}
-
-	while($row = mysqli_fetch_assoc($result)){
-		if($row['type']==CLIENT_TYPE_MAPMETA){
-			if(strpos($row['hash_tag'], $target_word)==true){
-				$search_object = new Map_Search;
-				$search_object->user_id = $user_id;
-				$search_object->user_name = $user_name;
-				$search_object->category = $row['category'];			
-				$search_object->hash_tag = $row['hash_tag'];
-				return $search_object;
-			}
-				
-		}
-	}
-
-}
 
 class Map_Search{
 	public $user_id, $user_name, $category, $hash_tag; 

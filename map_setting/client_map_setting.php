@@ -29,8 +29,6 @@ if(!$result = mysqli_query($conn,$sql)){
 	$to_client['state']=$sql;
 }
 
-UpdateUserInfoHashtag($conn,$user_id,$map_id,$hash_tag);
-
 
 $sql = "SELECT * FROM ".CLIENT_TABLE." WHERE user_id = '{$user_id}'";
 
@@ -59,30 +57,6 @@ class Map_Metainfo{
 
 }
 
-function UpdateUserInfoHashtag($conn,$user_id,$map_id,$hash_tag){
-	$sql = "SELECT * FROM ".CLIENT_TABLE." WHERE user_id = '{$user_id}'";
-	if(!$result = mysqli_query($conn,$sql)){
-		$to_client['state']="update userinfo error";
-	}
-	while($row = mysqli_fetch_assoc($result)){
-		if($row['type']==CLIENT_TYPE_MAPMETA){
-			if($row['pid']!=$map_id){
-				$new_hash = $new_hash.$row['hash_tag']."|";
 
-			}
-			else{
-				$new_hash = $new_hash.$hash_tag."|";
-			}
-		}
-	}
-
-	$sql = "UPDATE ".USER_TABLE." SET hash_tag = '{$new_hash}' WHERE userid = '{$user_id}'";
-	
-	if(!$result = mysqli_query($conn,$sql)){
-		$to_client['state']=$sql;
-	}
-
-
-}
 
 ?>

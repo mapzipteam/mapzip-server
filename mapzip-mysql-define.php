@@ -26,6 +26,8 @@ define("CLIENT_TYPE_FRIEND_ADDED",3); // 본인을 추가한 친구 타입
 
 // mysql - mz_friend_table
 define("FRIEND_TABLE","mz_friend_table"); // mapzip 유저간 맵갈피관계
+define("FRIEND_TYPE_USER_LEAVE", 1); // 맵갈피 테이블에서 유저가 회원탈퇴할때 동작
+define("FRIEND_TYPE_DELETE_ONLYTOID", 2); // 맵갈피 테이블에서 유저가 맵갈피 해제할때 동작
 
 // mysql - mz_review_data
 define("REVIEW_TABLE","mz_review_data");

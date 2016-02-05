@@ -1,6 +1,6 @@
 <?php
 
-$dir_name = "./client_".$_GET['userid'];
+$dir_name = "./".$_GET['store_id']."/".$_GET['something'];
 if(is_dir($dir_name)){
 	echo "folder exist<br>";
 }
@@ -10,7 +10,7 @@ else{
 		echo "{$dir_name} directory created...";
 	}
 	else{
-		echo "directory uncreated...";
+		echo "{$dir_name} uncreated...";
 	}
 }
 

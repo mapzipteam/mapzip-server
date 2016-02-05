@@ -63,7 +63,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 	$to_client['state_log'] = "default";
 
 	// $uploaddir = "./client_{$_POST['userid']}_{$_POST['map_id']}_{$_POST['store_name']}|{$_POST['store_cx']}|{$_POST['store_cy']}"; 
-$uploaddir = "./client_{$value['userid']}_{$value['map_id']}_{$value['store_id']}"; 
+$uploaddir = "./client_{$value['userid']}/store_{$value['store_id']}"; 
 // $uploadfile = $uploaddir.basename($_FILES['userfile']['name']); 
 
 $uploadfile = $uploaddir."/".$value['image_name'].".jpg";

@@ -52,7 +52,7 @@ class MapzipUserLeave{
                 return 0;
             }
         }else if($type === FRIEND_TYPE_DELETE_ONLYTOID){
-            $sql = "DELETE FROM ".FRIEND_TABLE." WHERE from_id = '{$target_id}' and to_id = '{$to_id}'";
+            $sql = "DELETE FROM ".FRIEND_TABLE." WHERE from_id = '{$target_id}' and to_id = '{$to_id}' LIMIT 1";
             if(mysqli_query($conn,$sql)){
                 return 1;
             }else{
@@ -83,7 +83,7 @@ class MapzipUserLeave{
             return 0;
         }else{
             while($row = mysqli_fetch_assoc($result)){
-                $direct_path = "../client_data/client_{$target_id}_{$row['map_id']}_{$row['pid']}";
+                $direct_path = "../client_data/client_{$target_id}";
                 if(removeDirectory($direct_path)){
                     //$bool = 1;
                 }else{

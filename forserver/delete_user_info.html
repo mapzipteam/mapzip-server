@@ -97,7 +97,12 @@
 
         if($_POST['total_delete'] == 1){
             // 전체 정보 삭제
-            echo "total delete <br>";
+             echo "total delete <br>";
+            $sql = "SELECT * FROM ".USER_TABLE;
+            if(!$result = mysqli_query($conn,$sql)){
+                echo "select fail<br>";
+            }
+           
             while($row = mysqli_fetch_assoc($result)){
             // delete on user_info table 
                 $user_leave->setTargetId($row['userid']);

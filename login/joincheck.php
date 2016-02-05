@@ -2,6 +2,7 @@
 include("../fmysql.php");
 include("../mapzip-mysql-define.php");
 include("../mapzip-state-define.php");
+include("../mapzip-imgdir-module.php");
 
 //echo "id:".$user_id." pw:".$user_pw." name:".$username." from server\n";
 
@@ -51,6 +52,11 @@ if(joinOK($user_id,$result)){
 
 		$sql = "INSERT INTO ".GCM_TABLE." (user_id, type) VALUES ('{$value['userid']}', 1);";
 		mysqli_query($conn,$sql);  
+
+		$imgdir_manager = new MapzipImageDir();
+		$dir_name = "../client_data/client_".$value['userid'];
+		$imgdir_manager->setClientDirPath($dir_name);
+		$to_client['state_imgdir'] = $imgdir_manager->executeClientDir();
 		
 		$to_client['state']=JOIN_SUCCESS;
 		$to_client['join']=1;

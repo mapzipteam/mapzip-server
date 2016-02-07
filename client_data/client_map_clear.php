@@ -2,6 +2,7 @@
 include("../fmysql.php");
 include("../mapzip-mysql-define.php");
 include("../mapzip-state-define.php");
+include("../user-leave-module.php");
 include("client_rmdir.php");
 
 $value = json_decode(file_get_contents('php://input'), true);
@@ -17,12 +18,13 @@ else{
     $to_client['state_log'] .= "connect mysql success!\n";
 }
 
+
 $sql = "SELECT * FROM ".REVIEW_TABLE." WHERE user_id = '{$value['user_id']}' and map_id = {$value['map_id']}";
 if(!$result = mysqli_query($conn,$sql)){
     $to_client['state_log'] .= "select query error\n";
 }else{
     while($row = mysqli_fetch_assoc($result)){
-        $direct_path = "../client_data/client_{$value['user_id']}_{$row['map_id']}_{$row['pid']}";
+        $direct_path = "../client_data/client_{$value['user_id']}/store_{$row['pid']}";
         if(removeDirectory($direct_path)){
             $to_client['state_log'] .= "{$direct_path} directory delete complete\n";
         }else{

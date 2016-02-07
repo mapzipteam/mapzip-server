@@ -1,4 +1,23 @@
 <?php
+/*
+Required include file : mapzip-mysql-define, mapzip-state-define
+
+Usage example #1 : Delete user info in mapzip
+    
+    $user_leave = new MapzipUserLeave($conn);
+    $user_leave->setTargetId($value['target_id']);
+    $to_client = $user_leave->execute();
+
+Usage example #2 : Delete only friend Info
+    user_leave = new MapzipUserLeave($conn);
+    $user_leave->setTargetId($value['user_id']);
+    if($user_leave->deleteFromFriendTable(FRIEND_TYPE_DELETE_ONLYTOID,$value['target_id'])){
+        $to_client['state_log'] .= "delete success";
+    }else{
+        $to_client['state_log'] .= "delete something fail";
+    }
+
+*/
 class MapzipUserLeave{
 
 	var $target_id = "";
@@ -10,11 +29,9 @@ class MapzipUserLeave{
 		$target_id = "";
 		$this->conn = $db_connection;
 	}
-
-	function setTargetId($id){
+    function setTargetId($id){
 		$this->target_id = $id;
 	}
-
     function deleteFromUserTable(){
         $conn = $this->conn;
         $target_id = $this->target_id;
@@ -27,7 +44,6 @@ class MapzipUserLeave{
             return 0;
         }
     }
-
     function deleteFromGCMTable(){
         $conn = $this->conn;
         $target_id = $this->target_id;
@@ -39,7 +55,6 @@ class MapzipUserLeave{
             return 0;
         }
     }
-
     function deleteFromFriendTable($type, $to_id = ""){
         $conn = $this->conn;
         $target_id = $this->target_id;
@@ -60,7 +75,6 @@ class MapzipUserLeave{
             }
         }
     }
-    
     function deleteFromClientTable(){
         $conn = $this->conn;
         $target_id = $this->target_id;
@@ -93,7 +107,6 @@ class MapzipUserLeave{
         }
         return $bool;
     }
-    
     function deleteFromReviewTable(){
         $conn = $this->conn;
         $target_id = $this->target_id;
@@ -106,7 +119,6 @@ class MapzipUserLeave{
             return 0;
         }
     }
-
     function execute(){
 		$conn = $this->conn;
 		$response = $this->response;

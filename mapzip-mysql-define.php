@@ -31,5 +31,8 @@ define("FRIEND_TYPE_DELETE_ONLYTOID", 2); // 맵갈피 테이블에서 유저가
 
 // mysql - mz_review_data
 define("REVIEW_TABLE","mz_review_data");
+define("REVIEW_TYPE_USER_LEAVE",1); // 해당 이용자의 모든 리뷰정보를 삭제할 때 동작
+define("REVIEW_TYPE_DELETE_ONEMAP",2); // 이용자의 지도 하나의 리뷰정보만 삭제할 때 동작
+define("REVIEW_TYPE_DELETE_ONEREVIEW",3); // 이용자의 하나의 리뷰정보만 삭제할 때 동작
 
 ?>

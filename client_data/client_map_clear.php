@@ -18,26 +18,19 @@ else{
     $to_client['state_log'] .= "connect mysql success!\n";
 }
 
+$user_leave = new MapzipUserLeave($conn);
+$user_leave->setTargetId($value['user_id']);
 
-$sql = "SELECT * FROM ".REVIEW_TABLE." WHERE user_id = '{$value['user_id']}' and map_id = {$value['map_id']}";
-if(!$result = mysqli_query($conn,$sql)){
-    $to_client['state_log'] .= "select query error\n";
-}else{
-    while($row = mysqli_fetch_assoc($result)){
-        $direct_path = "../client_data/client_{$value['user_id']}/store_{$row['pid']}";
-        if(removeDirectory($direct_path)){
-            $to_client['state_log'] .= "{$direct_path} directory delete complete\n";
-        }else{
-            $to_client['state_log'] .= "{$direct_path} directory delete fail\n";
-            $to_client['state'] = LEAVE_ERROR_IGNORE;
-        }
-    }
+// delete review image dir
+if($user_leave->deleteReviewImageDir(REVIEW_TYPE_DELETE_ONEMAP,$value['map_id'])){
+	$to_client['state_log'] .= "{$direct_path} directory delete complete\n";
+}else if(){
+	$to_client['state_log'] .= "{$direct_path} directory delete fail\n";
+    $to_client['state'] = LEAVE_ERROR_IGNORE;
 }
 
-$sql = "DELETE FROM ".REVIEW_TABLE." WHERE user_id = '{$value['user_id']}' and map_id = {$value['map_id']}";
-if(!mysqli_query($conn,$sql)){
-	$to_client['state_log'] .= $sql;
-}else{
+// delete review data 
+if($user_leave->deleteFromReviewTable(REVIEW_TYPE_DELETE_ONEMAP,$value['map_id'])){
 	$to_client['state_log'] .= "delete review table success";
 	$sql = "SELECT count(*) as new_total_review FROM ".REVIEW_TABLE." WHERE user_id = '{$value['user_id']}'";
 	if(!$result = mysqli_query($conn,$sql)){
@@ -51,7 +44,11 @@ if(!mysqli_query($conn,$sql)){
 			$to_client['state'] .= "update success";
 		}
 	}
+}else{
+	$to_client['state_log'] .= "delete review table something wrong";
 }
+
+
 echo json_encode($to_client);
 
 ?>

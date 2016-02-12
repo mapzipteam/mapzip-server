@@ -2,7 +2,7 @@
 /*
 Required include file : mapzip-mysql-define, mapzip-state-define
 
-Usage example #1 : Delete user info in mapzip
+Usage example #1 : Delete all info of one user in mapzip
     
     $user_leave = new MapzipUserLeave($conn);
     $user_leave->setTargetId($value['target_id']);
@@ -15,6 +15,17 @@ Usage example #2 : Delete only friend Info
         $to_client['state_log'] .= "delete success";
     }else{
         $to_client['state_log'] .= "delete something fail";
+    }
+
+Usage example #3 : Delete Review Image Dir
+    $user_leave = new MapzipUserLeave($conn);
+    $user_leave->setTargetId($value['user_id']);
+
+    if($user_leave->deleteReviewImageDir(REVIEW_TYPE_DELETE_ONEMAP,$value['map_id'])){
+        $to_client['state_log'] .= "{$direct_path} directory delete complete\n";
+    }else if(){
+        $to_client['state_log'] .= "{$direct_path} directory delete fail\n";
+        $to_client['state'] = LEAVE_ERROR_IGNORE;
     }
 
 */
@@ -88,36 +99,93 @@ class MapzipUserLeave{
             return 0;
         }
     }
-    function deleteReviewImageDir(){
+    /*
+        Delete Review Image Directory Success : return 1
+        Delete Review Image Directory Something wrong : return 0
+        Delete Review Image DIrectory select error : return -1   
+    */
+    function deleteReviewImageDir($type, $to_id = ""){
         $conn = $this->conn;
         $target_id = $this->target_id;
         $bool = 1;
-        $sql = "SELECT * FROM ".REVIEW_TABLE." WHERE user_id = '{$target_id}'";
-        if(!$result = mysqli_query($conn,$sql)){
-            return 0;
-        }else{
-            while($row = mysqli_fetch_assoc($result)){
-                $direct_path = "../client_data/client_{$target_id}";
-                if(removeDirectory($direct_path)){
-                    //$bool = 1;
-                }else{
-                    $bool = 0;
+        if($type == REVIEW_TYPE_USER_LEAVE){
+            $sql = "SELECT * FROM ".REVIEW_TABLE." WHERE user_id = '{$target_id}'";
+            if(!$result = mysqli_query($conn,$sql)){
+                return 0;
+            }else{
+                while($row = mysqli_fetch_assoc($result)){
+                    $direct_path = "../client_data/client_{$target_id}";
+                    if(removeDirectory($direct_path)){
+                        //$bool = 1;
+                    }else{
+                        $bool = 0;
+                    }
                 }
             }
+        }else if($type == REVIEW_TYPE_DELETE_ONEMAP){
+            $sql = "SELECT * FROM ".REVIEW_TABLE." WHERE user_id = '{$target_id}' and map_id = {$to_id}";
+            if(!$result = mysqli_query($conn,$sql)){
+                return -1;
+            }else{
+                while($row = mysqli_fetch_assoc($result)){
+                    $direct_path = "../client_data/client_{$target_id}/store_{$row['pid']}";
+                    if(removeDirectory($direct_path)){
+                        //$to_client['state_log'] .= "{$direct_path} directory delete complete\n";
+                        return 1;
+                    }else{
+                        //$to_client['state_log'] .= "{$direct_path} directory delete fail\n";
+                        //$to_client['state'] = LEAVE_ERROR_IGNORE;
+                        return 0;
+                    }
+                }
+            }
+        }else if($type == REVIEW_TYPE_DELETE_ONEREVIEW){
+            $direct_path = "../client_data/client_{$target_id}/store_{$to_id}";
+            if(removeDirectory($direct_path)){
+                //$to_client['state_log'] .= "{$direct_path} directory delete complete\n";
+                return 1;
+            }else{
+                //$to_client['state_log'] .= "{$direct_path} directory delete fail\n";
+                //$to_client['state'] = LEAVE_ERROR_IGNORE;
+                return 0;
+            }
         }
+        
         return $bool;
     }
-    function deleteFromReviewTable(){
+    /*
+        @params : type
+        Delete Review Data Success : return 1
+        Delete Review Data Something wrong : return 0
+    */
+    function deleteFromReviewTable($type, $to_id = ""){
         $conn = $this->conn;
         $target_id = $this->target_id;
-        $sql = "DELETE FROM ".REVIEW_TABLE." WHERE user_id = '{$target_id}'";
-        if($result = mysqli_query($conn,$sql)){
-            //echo(arg1)ho "query fail...\n";
-            return 1;
+        if($type == REVIEW_TYPE_USER_LEAVE){
+            $sql = "DELETE FROM ".REVIEW_TABLE." WHERE user_id = '{$target_id}'";
+            if($result = mysqli_query($conn,$sql)){
+                //echo(arg1)ho "query fail...\n";
+                return 1;
+            }
+            else{
+                return 0;
+            }
+        }else if($type == REVIEW_TYPE_DELETE_ONEMAP){
+            $sql = "DELETE FROM ".REVIEW_TABLE." WHERE user_id = '{$target_id}' and map_id = {$to_id}";
+            if(mysqli_query($conn,$sql)){
+                return 1;
+            }else{
+                return 0;
+            }
+        }else if($type == REVIEW_TYPE_DELETE_ONEREVIEW){
+            $sql = "DELETE FROM ".REVIEW_TABLE." WHERE user_id = '{$target_id}' and pid = {$to_id} LIMIT 1";
+            if(mysqli_query($conn,$sql)){
+                return 1;
+            }else{
+                return 0;
+            }
         }
-        else{
-            return 0;
-        }
+        
     }
     function execute(){
 		$conn = $this->conn;
@@ -158,7 +226,7 @@ class MapzipUserLeave{
         	$response['state'] = LEAVE_FAIL_SERIOUS;
     	}
 
-        if($this->deleteReviewImageDir()){
+        if($this->deleteReviewImageDir(REVIEW_TYPE_USER_LEAVE)){
             $response['state_log'] .= "image directory delete complete\n";
         }else{
             $response['state_log'] .= "image directory delete something fail\n";
@@ -166,7 +234,7 @@ class MapzipUserLeave{
         }
     
     	//$sql = "DELETE FROM ".REVIEW_TABLE." WHERE user_id = '{$target_id}'";
-    	if($this->deleteFromReviewTable()){
+    	if($this->deleteFromReviewTable(REVIEW_TYPE_USER_LEAVE)){
     		
         	$response['state_log'] .= "SUCCESS : delete row {$target_id} from mz_review...\n";
         	if(($response['state'] != LEAVE_FAIL_SERIOUS) || ($$response['state'] != LEAVE_ERROR_IGNORE)){

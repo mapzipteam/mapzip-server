@@ -33,6 +33,7 @@ else{
 			$map_object->store_y = $row['store_y'];
 			$map_object->store_name = $row['store_name'];
 			$map_object->store_id = $row['pid'];
+			$map_object->flag_type = $row['flag_type'];
 			array_push($to_client['map_meta'],$map_object);
 		}
 	}
@@ -51,7 +52,7 @@ else{
 echo json_encode($to_client);
 
 class Map_Meta{
-	public $map_id, $store_x, $store_y, $store_name, $store_id;
+	public $map_id, $store_x, $store_y, $store_name, $store_id, $flag_type;
 }
 
 ?>

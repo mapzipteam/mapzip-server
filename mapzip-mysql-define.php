@@ -35,4 +35,6 @@ define("REVIEW_TYPE_USER_LEAVE",1); // 해당 이용자의 모든 리뷰정보�
 define("REVIEW_TYPE_DELETE_ONEMAP",2); // 이용자의 지도 하나의 리뷰정보만 삭제할 때 동작
 define("REVIEW_TYPE_DELETE_ONEREVIEW",3); // 이용자의 하나의 리뷰정보만 삭제할 때 동작
 
+define("REVIEW_FLAG_TYPE_DEFAULT", 0); // flag type default
+
 ?>

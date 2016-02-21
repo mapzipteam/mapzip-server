@@ -23,9 +23,9 @@ $user_leave->setTargetId($value['user_id']);
 
 // delete review image dir
 if($user_leave->deleteReviewImageDir(REVIEW_TYPE_DELETE_ONEMAP,$value['map_id'])){
-	$to_client['state_log'] .= "{$direct_path} directory delete complete\n";
-}else if(){
-	$to_client['state_log'] .= "{$direct_path} directory delete fail\n";
+	$to_client['state_log'] .= "directory delete complete\n";
+}else{
+	$to_client['state_log'] .= "directory delete fail\n";
     $to_client['state'] = LEAVE_ERROR_IGNORE;
 }
 

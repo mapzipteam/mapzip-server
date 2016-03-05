@@ -3,6 +3,9 @@ include("../fmysql.php");
 include("../mapzip-mysql-define.php");
 include("../mapzip-state-define.php");
 
+define("MAP_SEARCH_TYPE_ALL", 0);
+define("MAP_SEARCH_TYPE_HASH", 1);
+
 $value = json_decode(file_get_contents('php://input'), true);
 
 $to_client = array('state'=>NON_KNOWN_ERROR);
@@ -31,8 +34,8 @@ $to_client['map_search']=array();
 
 
 while($row = mysqli_fetch_assoc($result)){
-	if(strpos($row['hash_tag'], $target_word)==true){
-		// 타겟해시가 포함되어 있다면
+	if($value['type'] == MAP_SEARCH_TYPE_ALL){
+		// all search
 		if($more>0){
 			$more -=1;
 			continue;
@@ -48,15 +51,40 @@ while($row = mysqli_fetch_assoc($result)){
 		$result2 = mysqli_query($conn,$sql2);
 		$row2 = mysqli_fetch_assoc($result2);
 		$search_object->user_name = $row2['username'];
-		array_push($to_client['map_search'],$search_object);
+		array_push($to_client['map_search'],$search_object);	
 
-		$contents_count -= 1;
+		$contents_count -= 1;	
 
+	}else if($value['type'] == MAP_SEARCH_TYPE_HASH){
+		// filter by hash
+		if(strpos($row['hash_tag'], $target_word)==true){
+			// 타겟해시가 포함되어 있다면
+			if($more>0){
+				$more -=1;
+				continue;
+			}
+			if($contents_count<=0){
+				break;
+			}
+			$search_object = new Map_Search;
+			$search_object->user_id = $row['user_id'];
+			$search_object->category = $row['category'];
+			$search_object->hash_tag = $row['hash_tag'];
+			$sql2 = "SELECT userid, username FROM ".USER_TABLE." WHERE userid = '{$row['user_id']}'";
+			$result2 = mysqli_query($conn,$sql2);
+			$row2 = mysqli_fetch_assoc($result2);
+			$search_object->user_name = $row2['username'];
+			array_push($to_client['map_search'],$search_object);	
+
+			$contents_count -= 1;	
+		}
+		else{
+
+		}	
+	}else{
 
 	}
-	else{
-
-	}
+	
 
 }
 if($more>0){

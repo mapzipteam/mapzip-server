@@ -19,7 +19,7 @@ $user_id = $value['userid'];
 if(Enroll_OK($conn,$user_id,$value)){
 	// enroll ok
 	$flag_type = REVIEW_FLAG_TYPE_DEFAULT;
-	$sql = "INSERT INTO ".REVIEW_TABLE." (user_id, map_id, gu_num, store_x, store_y, store_name, store_address, store_contact, review_emotion, review_text, image_num, flag_type, created, modified) VALUES ('{$user_id}', {$value['map_id']}, {$value['gu_num']}, {$value['store_x']}, {$value['store_y']}, '{$value['store_name']}','{$value['store_address']}','{$value['store_contact']}',{$value['review_emotion']},'{$value['review_text']}', {$value['image_num']}, {$flag_type}, now(), now())";
+	$sql = "INSERT INTO ".REVIEW_TABLE." (user_id, map_id, gu_num, store_x, store_y, store_name, store_address, store_contact, review_emotion, positive_text, negative_text, review_text, image_num, flag_type, created, modified) VALUES ('{$user_id}', {$value['map_id']}, {$value['gu_num']}, {$value['store_x']}, {$value['store_y']}, '{$value['store_name']}','{$value['store_address']}','{$value['store_contact']}',{$value['review_emotion']},'{$value['positive_text']}','{$value['negative_text']}','{$value['review_text']}', {$value['image_num']}, {$flag_type}, now(), now())";
 	if(!mysqli_query($conn,$sql)){
 		// insert fail
 		$to_client['state'] = $sql;

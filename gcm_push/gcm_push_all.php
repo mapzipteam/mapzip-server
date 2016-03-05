@@ -27,7 +27,7 @@ if(!$result = mysqli_query($conn,$sql)){
 	$title = $_POST['gcm_title'];
 	$message = $_POST['gcm_message'];
 	$extra = array();
-	$extra['customkey1'] = "custom_key1";
+	$extra['notification_type'] = true;
 	$extra['customkey2'] = "custom_key2";
 
 	$response="";

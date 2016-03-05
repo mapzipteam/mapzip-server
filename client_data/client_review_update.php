@@ -13,7 +13,7 @@ else{
 //echo "connect success!\n";
 }
 
-$sql = "UPDATE ".REVIEW_TABLE." SET map_id = {$value['map_id']}, review_emotion = {$value['review_emotion']}, review_text = '{$value['review_text']}', image_num = {$value['image_num']}, modified = now() WHERE user_id = '{$value['user_id']}' and pid = {$value['store_id']}";
+$sql = "UPDATE ".REVIEW_TABLE." SET map_id = {$value['map_id']}, review_emotion = {$value['review_emotion']}, positive_text = '{$value['positive_text']}', negative_text = '{$value['negative_text']}', review_text = '{$value['review_text']}', image_num = {$value['image_num']}, modified = now() WHERE user_id = '{$value['user_id']}' and pid = {$value['store_id']}";
 
 if(!mysqli_query($conn,$sql)){
 		// insert fail

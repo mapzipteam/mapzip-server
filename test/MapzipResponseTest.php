@@ -1,28 +1,4 @@
 <?php
-
-function connect_mysqli($ip,$user,$password,$db){
-	if(!$conn = mysqli_connect($ip,$user,$password)){
-		echo "mysql 연결실패<br />";
-	}
-	//mysql_query("SET NAMES UTF8");
-	if(!mysqli_select_db($conn,$db)){
-		echo "db 선택 실패<br />";
-	}
-	
-	return $conn;
-}
-
-/*
-	서버 -> 클라이언트 로 보내는 데이터의 형식을 만들어주는 모듈
-
-	Example #1
-	$mrb = new MapzipResponse($value['debugmode']);
-	$mrb->setFields(key, value);
-	$mrb->setDebugs(key, value);
-	echo json_encode(mrb->build());
-
-*/
-
 class MapzipResponse{
 	private $mDebugMode;
 	private $response;
@@ -66,6 +42,9 @@ class MapzipResponse{
 	}
 }
 
-
-
+$mrb = new MapzipResponse(true);
+$mrb->setFields("key1", "value1");
+$mrb->setFields("key2", "value2");
+$mrb->setDebugs("key1", "value1");
+echo json_encode($mrb->build());
 ?>

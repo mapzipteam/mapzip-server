@@ -34,6 +34,8 @@ else{
 			$map_object->store_address = $row['store_address'];
 			$map_object->store_contact = $row['store_contact'];
 			$map_object->review_emotion = $row['review_emotion'];
+			$map_object->positive_text = $row['positive_text'];
+			$map_object->negative_text = $row['negative_text'];
 			$map_object->review_text = $row['review_text'];
 			$map_object->image_num = $row['image_num'];
 			$map_object->flag_type = $row['flag_type'];
@@ -49,7 +51,7 @@ else{
 echo json_encode($to_client);
 
 class Map_Detail{
-	public $store_id, $gu_num, $store_address, $store_contact, $review_emotion, $review_text, $image_num, $flag_type, $created, $modified;
+	public $store_id, $gu_num, $store_address, $store_contact, $review_emotion, $positive_text, $negative_text, $review_text, $image_num, $flag_type, $created, $modified;
 }
 
 ?>

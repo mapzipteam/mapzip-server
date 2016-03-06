@@ -26,7 +26,10 @@ if(Enroll_OK($conn,$user_id,$value)){
 	}else{
 		// insert success
 		$sql = "UPDATE ".USER_TABLE." SET total_review = total_review+1 WHERE userid = '{$user_id}'";
-		$result = mysqli_query($conn,$sql);
+		$result = mysqli_query($conn, $sql);
+
+		$sql = "UPDATE ".CLIENT_TABLE." SET created = now() WHERE user_id = '{$user_id}' and map_id = {$value['map_id']}";
+		mysqli_query($conn, $sql);
 		
 		$sql = "SELECT pid FROM ".REVIEW_TABLE." WHERE user_id = '{$user_id}' and store_x = {$value['store_x']} AND store_y = {$value['store_y']} AND store_name = '{$value['store_name']}'";
 		$result = mysqli_query($conn,$sql);

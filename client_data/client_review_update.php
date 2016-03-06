@@ -19,8 +19,10 @@ if(!mysqli_query($conn,$sql)){
 		// insert fail
 	$to_client['state'] = CLIENT_REVIEW_DATA_UPDATE_FAIL;
 }else{
-
 	$to_client['state'] = CLIENT_REVIEW_DATA_UPDATE_SUCCESS;
+	
+	$sql = "UPDATE ".CLIENT_TABLE." SET created = now() WHERE user_id = '{$value['user_id']}' and map_id = {$value['map_id']}";
+	mysqli_query($conn, $sql);
 }
 echo json_encode($to_client);
 

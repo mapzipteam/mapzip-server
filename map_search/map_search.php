@@ -22,7 +22,7 @@ if(!$conn = connect_mysqli(MYSQL_IP,MAIN_DB,DB_PASSWORD,USE_DB)){
 }
 
 //$sql = "SELECT * FROM ".USER_TABLE;
-$sql = "SELECT * FROM ".CLIENT_TABLE." WHERE user_id <> '{$value['user_id']}'";
+$sql = "SELECT * FROM ".CLIENT_TABLE." WHERE user_id <> '{$value['user_id']}' ORDER BY created DESC";
 
 if(!$result = mysqli_query($conn,$sql)){
 	//echo "query fail...\n";

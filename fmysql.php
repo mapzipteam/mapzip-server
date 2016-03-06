@@ -60,9 +60,15 @@ class MapzipResponse{
 			// ignore
 		}
 	}
-
 	function build(){
 		return $this->response;
+	}
+}
+
+class MapzipLogHelper{
+	private $conn;
+	function __construct($db_connection){
+		$this->conn = $db_connection;
 	}
 }
 

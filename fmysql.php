@@ -16,32 +16,35 @@ function connect_mysqli($ip,$user,$password,$db){
 	서버 -> 클라이언트 로 보내는 데이터의 형식을 만들어주는 모듈
 
 	Example #1
-	$mrb = new MapzipResponse($value['debugmode']);
-	$mrb->setFields(key, value);
-	$mrb->setDebugs(key, value);
-	echo json_encode(mrb->build());
+	$to_client = new MapzipResponse($value['debug_mode'], $value['build_version']);
+	$to_client->setFields(key, value);
+	$to_client->setDebugs(key, value);
+	echo json_encode($to_client->build());
 
 */
 
 class MapzipResponse{
 	private $mDebugMode;
+	private $mBuildVersion;
 	private $response;
 	
 	// 디버그 모드를 설정해 주어야 한다
-	function __construct($debugmode){
-		$this->mDebugMode = $debugmode;
+	function __construct($debug_mode, $build_version){
+		$this->mDebugMode = $debug_mode;
+		$this->mBuildVersion = $build_version;
+
+		$this->response['headers'] = array();
+		$this->response['headers']['build_version'] = $build_version;
+		$this->response['fields'] = array();
 		if($this->mDebugMode){
 			// when debug mode requeset
-			$this->response['headers'] = array();
-			$this->response['headers']['debugmode'] = true;
-			$this->response['fields'] = array();
+			$this->response['headers']['debug_mode'] = true;
 			$this->response['debugs'] = array();
 		}
 		else{
 			// when release mode request
-			$this->response['headers'] = array();
-			$this->response['headers']['debugmode'] = false;
-			$this->response['fields'] = array();
+			
+			$this->response['headers']['debug_mode'] = false;
 		}
 	}
 
@@ -60,10 +63,13 @@ class MapzipResponse{
 			// ignore
 		}
 	}
+
 	function build(){
 		return $this->response;
 	}
 }
+
+define("BUILD_VERSION_EMERALD", 5);
 
 class MapzipLogHelper{
 	private $conn;

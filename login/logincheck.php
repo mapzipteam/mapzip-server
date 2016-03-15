@@ -28,7 +28,7 @@ if(($value['build_version'] >= BUILD_VERSION_GARNET) && ($value['build_version']
 		$to_client->setDebugs("select user_table query error", $sql);
 	}
 
-	if($username = loginOK($user_id,$user_pw,$result)){
+	if($username = loginOK($user_id, $user_pw, $result)){
 
 		$to_client->setFields("user_name", $username);
 		$to_client->setFields("state", LOGIN_SUCCESS);
@@ -180,8 +180,6 @@ if(($value['build_version'] >= BUILD_VERSION_GARNET) && ($value['build_version']
 			$to_client['gu_enroll_num']['state'] = CLIENT_REVIEW_META_DOWN_EMPTY;
 
 		}
-
-
 
 		echo json_encode($to_client);
 

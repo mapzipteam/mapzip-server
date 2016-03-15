@@ -1,5 +1,9 @@
 <?php
 
+/*
+	사용하지 않습니다
+*/
+
 $filepath = "./client_a_2_storename|123456|234567";
 $filename = $filepath."/image0.jpg";
 

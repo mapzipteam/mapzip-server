@@ -6,6 +6,12 @@ include("../mapzip-state-define.php");
 
 $value = json_decode(file_get_contents('php://input'), true);
 
+if(($value['build_version'] >= BUILD_VERSION_GARNET) && ($value['build_version'] < BUILD_VERSION_GARNET_END)){
+
+}else{
+	// old client version code
+}
+
 if(!$conn = connect_mysqli(MYSQL_IP,MAIN_DB,DB_PASSWORD,USE_DB)){
 	//echo "connnection error!\n";
 	$to_client['state']=DB_CONNECTION_ERROR;

@@ -1,5 +1,7 @@
 <?php
 
+// 사용하지 않습니다
+
 $dir_name = "./".$_GET['store_id']."/".$_GET['something'];
 if(is_dir($dir_name)){
 	echo "folder exist<br>";

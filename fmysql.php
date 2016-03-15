@@ -72,6 +72,7 @@ class MapzipResponse{
 define("BUILD_VERSION_GARNET", 5);
 define("BUILD_VERSION_GARNET_END", 100);
 
+
 class MapzipLogHelper{
 	private $conn;
 	function __construct($db_connection){

@@ -56,7 +56,7 @@ define("CLIENT_REVIEW_DETAIL_DOWN_SUCCESS",702); 	// map_detail 성공
 // state define 800~ : about friend_home.php
 define("FRIEND_HOME_SUCCESS",801); 			// 친구 홈 정보 받기 성공
 
-// state define 900~ : about friend_show.php , friend_enroll.php, 
+// state define 900~ : about friend_show.php , friend_enroll.php, friend_search
 define("FRIEND_ITEM_SHOW_SUCCESS", 901); 	// success to show user's friend list
 define("FRIEND_ITEM_SHOW_EMPTY",902); 		// if user's friend list is empty..
 
@@ -65,6 +65,8 @@ define("FRIEND_ITEM_DELETE_FAIL", 912); 	// 사용자의 맵갈피 정보 하나
 
 define("FRIEND_ITEM_ENROLL_SUCCESS", 921); 	// 사용자의 맵갈피 정보 하나 등록 성공
 define("FRIEND_ITEM_ENROLL_FAIL", 922); 	// 사용자의 맵갈피 정보 하나 등록 실패
+
+define("FRIEND_SEARCH_SUCCESS", 931);		// 사용자의 맵갈피 정보 찾기 성공
 
 // state define 1000~ : about interact with users
 define("USER_SOUND_INSERT_SUCCESS",1001); // success to insert in user sound to mz_user_sound table

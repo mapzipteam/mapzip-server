@@ -6,6 +6,21 @@ include("../mapzip-state-define.php");
 
 $value = json_decode(file_get_contents('php://input'), true);
 
+if(($value['build_version'] >= BUILD_VERSION_GARNET) && ($value['build_version'] < BUILD_VERSION_GARNET_END)){
+	$to_client = new MapzipResponse($value['debug_mode'], $value['build_version']);
+	
+	if(!$conn = connect_mysqli(MYSQL_IP,MAIN_DB,DB_PASSWORD,USE_DB)){
+	//echo "connnection error!\n";
+		$to_client->setFields("state", DB_CONNECTION_ERROR);
+		$to_client->setDebugs("DB connection error", DB_CONNECTION_ERROR);
+	}
+	else{
+		// db connection success
+	}
+}else{
+
+}
+
 $to_client = array('state'=>NON_KNOWN_ERROR);
 
 if(!$conn = connect_mysqli(MYSQL_IP,MAIN_DB,DB_PASSWORD,USE_DB)){

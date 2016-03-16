@@ -74,4 +74,7 @@ define("USER_SOUND_INSERT_FAIL",1002); // fail it
 
 //state define 1100~ : about mz_user_gcm
 define("USER_GCM_UPDATE_FAIL",1101); // 로그인할때, 유저 GCM테이블에 업데이트가 실패
+
+// state define 1200~ : about get_patch_update.php
+define("PATCH_NOTE_GET_SUCCESS", 1201); 	// MapZip 공지사항을 정상적으로 전달함
 ?>

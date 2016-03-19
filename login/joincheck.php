@@ -54,7 +54,7 @@ if(($value['build_version'] >= BUILD_VERSION_GARNET) && ($value['build_version']
 			$dir_name = "../client_data/client_".$value['user_id'];
 			$imgdir_manager->setClientDirPath($dir_name);
 
-			$to_client->setFields('state_imgdir', $imgdir_manager->executeClientDir());
+			$to_client->setFields('state_client_dir', $imgdir_manager->executeClientDir());
 			$to_client->setFields('state', JOIN_SUCCESS);
 
 

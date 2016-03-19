@@ -31,14 +31,15 @@ Usage example #3 : Delete Review Image Dir
 */
 class MapzipUserLeave{
 
-	var $target_id = "";
-	var $conn = 0;
-	var $response = array();
+	private $target_id = "";
+	private $conn = 0;
+	private $response;
 
-	function MapzipUserLeave($db_connection){
+	function MapzipUserLeave($db_connection, $to_client){
 		
 		$target_id = "";
 		$this->conn = $db_connection;
+        $this->response = $to_client;
 	}
     function setTargetId($id){
 		$this->target_id = $id;
@@ -191,62 +192,67 @@ class MapzipUserLeave{
 		$conn = $this->conn;
 		$response = $this->response;
 		$target_id = $this->target_id;
+        $response = $this->response;
+        $temp_state;
 		
 		if($this->deleteFromUserTable()){
-        	$response['state_log'] .= "SUCCESS : delete {$target_id} from user_info table ..\n";
+            $response->setDebugs('delete {$target_id} from user_info table', 'success');
     	}
     	else{
-        	$response['state_log'] .= "FAIL : delete {$target_id} from user_info table ..\n";
-        	$response['state'] = LEAVE_FAIL_SERIOUS;
+            $response->setDebugs('delete {$target_id} from user_info table', 'fail');
+        	$temp_state = LEAVE_FAIL_SERIOUS;
     	}
 
     	//$sql = "DELETE FROM ".GCM_TABLE." WHERE user_id = '{$target_id}'";
     	if($this->deleteFromGCMTable()){
-    		$response['state_log'] .= "SUCCESS : delete {$target_id} from gcm_table table ..\n";
+            $response->setDebugs('delete {$target_id} from gcm_table table', 'success');
+    		
     	}else{
+            $response->setDebugs('delete {$target_id} from gcm_table table', 'fail');
     		$response['state_log'] .= $sql;
-    		$response['state'] = LEAVE_FAIL_SERIOUS;
+    		$temp_state = LEAVE_FAIL_SERIOUS;
     	}
 
     	//$sql = "DELETE FROM ".FRIEND_TABLE." WHERE from_id = '{$target_id}' or to_id = '{$target_id}'";
     	if($this->deleteFromFriendTable(FRIEND_TYPE_USER_LEAVE)){
-        	$response['state_log'] .= "SUCCESS : delete {$target_id} from friend_table table ..\n";
+            $response->setDebugs('delete {$target_id} from friend_table table', 'success');
     	}else{
-        	$response['state_log'] .= $sql;
-        	$response['state'] = LEAVE_FAIL_SERIOUS;
+            $response->setDebugs('delete {$target_id} from friend_table table', 'fail');
+        	$temp_state = LEAVE_FAIL_SERIOUS;
     	}
     
     	//$sql = "DELETE FROM ".CLIENT_TABLE." WHERE user_id = '{$target_id}'";
     	if($this->deleteFromClientTable()){
     		//echo "query fail...\n";
-        	$response['state_log'] .= "SUCCESS : delete row {$target_id} from mz_client...\n";
+            $response->setDebugs('delete row {$target_id} from mz_client', 'success');
     	}
     	else{
-        	$response['state_log'] .= "FAIL : delete row {$target_id} from mz_client..\n";
-        	$response['state'] = LEAVE_FAIL_SERIOUS;
+            $response->setDebugs('delete row {$target_id} from mz_client', 'fail');
+        	$temp_state = LEAVE_FAIL_SERIOUS;
     	}
 
         if($this->deleteReviewImageDir(REVIEW_TYPE_USER_LEAVE)){
-            $response['state_log'] .= "image directory delete complete\n";
+            $response->setDebugs('image directory delete complete', 'success');
         }else{
-            $response['state_log'] .= "image directory delete something fail\n";
-            $response['state'] = LEAVE_ERROR_IGNORE;
+            $response->setDebugs('image directory delete complete', 'fail');
+            if($temp_state != LEAVE_FAIL_SERIOUS){
+                $temp_state = LEAVE_ERROR_IGNORE;
+            }
+            
         }
     
     	//$sql = "DELETE FROM ".REVIEW_TABLE." WHERE user_id = '{$target_id}'";
     	if($this->deleteFromReviewTable(REVIEW_TYPE_USER_LEAVE)){
-    		
-        	$response['state_log'] .= "SUCCESS : delete row {$target_id} from mz_review...\n";
-        	if(($response['state'] != LEAVE_FAIL_SERIOUS) || ($$response['state'] != LEAVE_ERROR_IGNORE)){
-        		$response['state'] = LEAVE_ALL_SUCCESS;
+    		$response->setDebugs('delete row {$target_id} from mz_review', 'success');
+        	if(($temp_state != LEAVE_FAIL_SERIOUS) || ($temp_state != LEAVE_ERROR_IGNORE)){
+        		$temp_state = LEAVE_ALL_SUCCESS;
        		}
     	}
     	else{
-        	$response['state_log'] .= "FAIL : delete row {$target_id} from mz_review..\n";
-        	$response['state'] = LEAVE_FAIL_SERIOUS;
+            $response->setDebugs('delete row {$target_id} from mz_review', 'fail');
+        	$temp_state = LEAVE_FAIL_SERIOUS;
     	}
-
-    	return $response;
+        $response->setFields('state', $temp_state);
 	}
 
 }

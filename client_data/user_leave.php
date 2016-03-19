@@ -9,7 +9,7 @@ include("../user-leave-module.php");
 //     $value['target_id'] = $_POST['target_id'];
 // }
 
-    
+
 $value = json_decode(file_get_contents('php://input'), true);
 
 if(($value['build_version'] >= BUILD_VERSION_GARNET) && ($value['build_version'] < BUILD_VERSION_GARNET_END)){
@@ -22,15 +22,19 @@ if(($value['build_version'] >= BUILD_VERSION_GARNET) && ($value['build_version']
     }
     else{
         // db connection success
+
+        $user_leave = new MapzipUserLeave($conn, $to_client);
+
+        $user_leave->setTargetId($value['target_id']);
+        $user_leave->execute();
+
     }
+    echo json_encode($to_client->build());
 }else{
+    $to_client = array();
 
-}
-
-$to_client = array();
-
-$to_client['state_log'] = "";
-$to_client['state'] = NON_KNOWN_ERROR;
+    $to_client['state_log'] = "";
+    $to_client['state'] = NON_KNOWN_ERROR;
     
     if(!$conn = connect_mysqli(MYSQL_IP,MAIN_DB,DB_PASSWORD,USE_DB)){
     //echo "connnection error!\n";
@@ -50,6 +54,10 @@ $to_client['state'] = NON_KNOWN_ERROR;
     
     echo(json_encode($to_client));
 
-    
+}
+
+
+
+
 
 ?>

@@ -30,32 +30,31 @@ class MapzipImageDir{
 	function executeClientDir(){
 		$dir_name = $this->client_dir_path;
 		if(is_dir($dir_name)){
-			$this->response['state_dir']=CLIENT_REVIEW_IMAGE_MKDIR_EXIST;
+			return CLIENT_REVIEW_IMAGE_MKDIR_EXIST;
 		}
 		else{
 			if(@mkdir($dir_name,0777)){
-				$this->response['state_dir'] = CLIENT_REVIEW_IMAGE_MKDIR_SUCCESS;
+				return CLIENT_REVIEW_IMAGE_MKDIR_SUCCESS;
 			}
 			else{
-				$this->response['state_dir'] = CLIENT_REVIEW_IMAGE_MKDIR_FAIL;
+				return CLIENT_REVIEW_IMAGE_MKDIR_FAIL;
 			}
 		}
-		return $this->response;
+		
 	}
 	function executeStoreDir(){
 		$dir_name = $this->store_dir_path;
 		if(is_dir($dir_name)){
-			$this->response['state_dir']=CLIENT_REVIEW_IMAGE_MKDIR_EXIST;
+			return CLIENT_REVIEW_IMAGE_MKDIR_EXIST;
 		}
 		else{
 			if(@mkdir($dir_name,0777)){
-				$this->response['state_dir'] = CLIENT_REVIEW_IMAGE_MKDIR_SUCCESS;
+				return CLIENT_REVIEW_IMAGE_MKDIR_SUCCESS;
 			}
 			else{
-				$this->response['state_dir'] = CLIENT_REVIEW_IMAGE_MKDIR_FAIL;
+				return CLIENT_REVIEW_IMAGE_MKDIR_FAIL;
 			}
 		}
-		return $this->response;
 	}
 
 }

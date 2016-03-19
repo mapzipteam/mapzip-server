@@ -28,34 +28,29 @@ if(($value['build_version'] >= BUILD_VERSION_GARNET) && ($value['build_version']
 			$to_client->setFields("state", MAP_SETTING_FAIL);
 		}else{
 			$to_client->setFields("state", MAP_SETTING_SUCCESS);
-		}
+			
+			$sql = "SELECT * FROM ".CLIENT_TABLE." WHERE user_id = '{$user_id}'";
+			$mapmeta_info_object = array();
+			if(!$result = mysqli_query($conn,$sql)){
+				$to_client->setFields('state', SQL_QUERY_ERROR);
+				$to_client->setDebugs('select client table fail', $sql);
+			}else{
+				while($row = mysqli_fetch_assoc($result)){
+					if($row['type']==CLIENT_TYPE_MAPMETA){
+						$map_object = new Map_Metainfo;
+						$map_object->map_id = $row['map_id'];
+						$map_object->title = $row['title'];
+						$map_object->category = $row['category'];			
+						$map_object->hash_tag = $row['hash_tag'];
+						array_push($mapmeta_info_object, $map_object);
 
-
-		$sql = "SELECT * FROM ".CLIENT_TABLE." WHERE user_id = '{$user_id}'";
-
-		$mapmeta_info_object = array();
-
-		if(!$result = mysqli_query($conn,$sql)){
-			$to_client['state']=SQL_QUERY_ERROR;
-			$to_client['state_log'] = $sql;
-		}else{
-			while($row = mysqli_fetch_assoc($result)){
-				if($row['type']==CLIENT_TYPE_MAPMETA){
-					$map_object = new Map_Metainfo;
-					$map_object->map_id = $row['map_id'];
-					$map_object->title = $row['title'];
-					$map_object->category = $row['category'];			
-					$map_object->hash_tag = $row['hash_tag'];
-					array_push($mapmeta_info_object, $map_object);
-
+					}
 				}
+				$to_client->setFields("mapmeta_info", $mapmeta_info_object);
 			}
-			$to_client->setFields("mapmeta_info", $mapmeta_info_object);
 		}
-	}
 
-	
-	
+	}	
 	echo json_encode($to_client->build());
 }else{
 	// old client version code

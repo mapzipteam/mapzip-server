@@ -45,7 +45,7 @@ if(($value['build_version'] >= BUILD_VERSION_GARNET) && ($value['build_version']
 				$to_client->setDebugs('insert client table error', $sql);
 			}	
 
-			$sql = "INSERT INTO ".GCM_TABLE." (user_id, type) VALUES ('{$value['userid']}', 1);";
+			$sql = "INSERT INTO ".GCM_TABLE." (user_id, type) VALUES ('{$value['user_id']}', 1);";
 			if(!mysqli_query($conn,$sql)){
 				$to_client->setDebugs('insert gcm table error', $sql);
 			}  

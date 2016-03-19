@@ -80,7 +80,7 @@ if(($value['build_version'] >= BUILD_VERSION_GARNET) && ($value['build_version']
 		$to_client->setFields("gu_enroll_num", $gu_enroll_num_object);
 		
 		$sql = "UPDATE ".GCM_TABLE." SET gcm_key = '{$value['gcm_key']}' WHERE user_id = '{$value['user_id']}';";
-		if(!mysqli_query($conn,$sql)){
+		if(!mysqli_query($conn, $sql)){
 			$to_client->setFields("state_gcm", USER_GCM_UPDATE_FAIL);
 			$to_client->setDebugs("update  gcm_table fail", $sql);
 			

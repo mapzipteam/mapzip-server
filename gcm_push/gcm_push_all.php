@@ -27,7 +27,7 @@ if(!$result = mysqli_query($conn,$sql)){
 	$title = $_POST['gcm_title'];
 	$message = $_POST['gcm_message'];
 	$extra = array();
-	$extra['notification_type'] = true;
+	
 	$extra['customkey2'] = "custom_key2";
 
 	$response="";
@@ -37,7 +37,7 @@ if(!$result = mysqli_query($conn,$sql)){
  
 	for($j=0; $j < count($divide_array); $j++) {
  
-    	$gcm = new GCMPushMessage(API_SERVER_KEY);
+    	$gcm = new GCMPushMessage(API_SERVER_KEY, true);
     	$gcm->setDevices($divide_array[$j]);
     	$response = $gcm->send($title, $message, $extra);
 	}	

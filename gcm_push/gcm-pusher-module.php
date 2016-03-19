@@ -21,12 +21,14 @@
 */
 class GCMPushMessage {
  
-    var $url = 'https://android.googleapis.com/gcm/send';
-    var $serverApiKey = "";
-    var $devices = array();
+    private $url = 'https://android.googleapis.com/gcm/send';
+    private $serverApiKey = "";
+    private $devices = array();
+    private $notification_type;
  
-    function GCMPushMessage($apiKeyIn){
+    function GCMPushMessage($apiKeyIn, $is_notification){
         $this->serverApiKey = $apiKeyIn;
+        $this->notification_type = $is_notification;
     }
  
     function setDevices($deviceIds){
@@ -52,7 +54,7 @@ class GCMPushMessage {
  
         $fields = array(
             'registration_ids'  => $this->devices,
-            'data'              => array( 'title' => $title, 'message' => $message, 'extra' => $extra ),
+            'data'              => array( 'title' => $title, 'message' => $message, 'notification_type' => $this->notification_type, 'extra' => $extra ),
         ); 
  
  

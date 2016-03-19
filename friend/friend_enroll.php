@@ -42,7 +42,7 @@ if(($value['build_version'] >= BUILD_VERSION_GARNET) && ($value['build_version']
 			curl_setopt($ch, CURLOPT_POST, true);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-			curl_setopt($ch, CURLOPT_POSTFIELDS,json_encode($arr));
+			curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($arr));
 			$response = curl_exec($ch);
 			curl_close($ch);
 			$to_client->setDebugs("do gcm, get response", $response);

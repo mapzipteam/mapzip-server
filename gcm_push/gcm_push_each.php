@@ -33,7 +33,7 @@ if($value['gcm_type'] === WHEN_ADD_FRIEND){
 		$row = mysqli_fetch_assoc($result);
 		array_push($devices,$row['gcm_key']);
 
-		$gcm = new GCMPushMessage(API_SERVER_KEY);
+		$gcm = new GCMPushMessage(API_SERVER_KEY, true);
     	$gcm->setDevices($devices);
     	$response = $gcm->send($title, $message, $extra);
 
@@ -62,7 +62,7 @@ if($value['gcm_type'] === WHEN_ADD_FRIEND){
 		$divide_array = array_chunk($devices, MULTICAST_MAX);
 		for($j=0; $j < count($divide_array); $j++) {
  
-    		$gcm = new GCMPushMessage(API_SERVER_KEY);
+    		$gcm = new GCMPushMessage(API_SERVER_KEY, true);
     		$gcm->setDevices($divide_array[$j]);
     		$response = $gcm->send($title, $message, $extra);
 		}	

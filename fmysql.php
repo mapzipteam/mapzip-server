@@ -69,7 +69,7 @@ class MapzipResponse{
 	}
 }
 
-define("BUILD_VERSION_GARNET", 5);
+define("BUILD_VERSION_GARNET", 6);
 define("BUILD_VERSION_GARNET_END", 100);
 
 

@@ -25,19 +25,17 @@ if(($value['build_version'] >= BUILD_VERSION_GARNET) && ($value['build_version']
 		$contents_count = 6;
 		$more *=$contents_count;
 
-		$sql = "SELECT * FROM ".CLIENT_TABLE." WHERE user_id <> '{$value['user_id']}' ORDER BY created DESC";
-
-		if(!$result = mysqli_query($conn,$sql)){
+		if($value['type'] == MAP_SEARCH_TYPE_ALL){
+			// 모든 유저의 지도를 찾을 때, 동작함
+			$sql = "SELECT * FROM ".CLIENT_TABLE." WHERE user_id <> '{$value['user_id']}' ORDER BY created DESC";
+			if(!$result = mysqli_query($conn,$sql)){
 	//echo "query fail...\n";
-			$to_client->setFields('state', SQL_QUERY_ERROR);
-			$to_client->setDebugs('select client table fail', $sql);
-		}else{
-			
-			$map_search_object = array();
-
-			while($row = mysqli_fetch_assoc($result)){
-				if($value['type'] == MAP_SEARCH_TYPE_ALL){
-		// all search
+				$to_client->setFields('state', SQL_QUERY_ERROR);
+				$to_client->setDebugs('select client table fail', $sql);
+			}else{
+				$map_search_object = array();
+				while($row = mysqli_fetch_assoc($result)){
+				// all search
 					if($more>0){
 						$more -=1;
 						continue;
@@ -56,44 +54,58 @@ if(($value['build_version'] >= BUILD_VERSION_GARNET) && ($value['build_version']
 					array_push($map_search_object, $search_object);
 
 					$contents_count -= 1;	
-
-				}else if($value['type'] == MAP_SEARCH_TYPE_HASH){
-		// filter by hash
-					if(strpos($row['hash_tag'], $target_word)==true){
-			// 타겟해시가 포함되어 있다면
-						if($more>0){
-							$more -=1;
-							continue;
-						}
-						if($contents_count<=0){
-							break;
-						}
-						$search_object = new Map_Search;
-						$search_object->user_id = $row['user_id'];
-						$search_object->category = $row['category'];
-						$search_object->hash_tag = $row['hash_tag'];
-						$sql2 = "SELECT userid, username FROM ".USER_TABLE." WHERE userid = '{$row['user_id']}'";
-						$result2 = mysqli_query($conn,$sql2);
-						$row2 = mysqli_fetch_assoc($result2);
-						$search_object->user_name = $row2['username'];
-						array_push($map_search_object, $search_object);
-						$contents_count -= 1;	
-					}
-					else{
-						// continue;
-					}	
-				}else{
-					// undifined type in value
+				}
+				$to_client->setFields('map_search', $map_search_object);
+				if($more>0){
+					$to_client->setFields('state', MAP_SEARCH_NO_MORE);
+				}
+				else{
+					$to_client->setFields('state', MAP_SEARCH_SUCCESS);
 				}
 			}
-			$to_client->setFields('map_search', $map_search_object);
-			if($more>0){
-				$to_client->setFields('state', MAP_SEARCH_NO_MORE);
+
+		}else if($value['type'] == MAP_SEARCH_TYPE_HASH){
+			// 해시태그를 포함한 지도만 검색할 때, 동작함
+
+			$sql = "SELECT * FROM ".CLIENT_TABLE." WHERE user_id <> '{$value['user_id']}' and hash_tag like '%{$target_word}%' ORDER BY created DESC";
+			if(!$result = mysqli_query($conn,$sql)){
+	//echo "query fail...\n";
+				$to_client->setFields('state', SQL_QUERY_ERROR);
+				$to_client->setDebugs('select client table fail', $sql);
+			}else{
+				$map_search_object = array();
+				while($row = mysqli_fetch_assoc($result)){
+				// all search
+					if($more>0){
+						$more -=1;
+						continue;
+					}
+					if($contents_count<=0){
+						break;
+					}
+					$search_object = new Map_Search;
+					$search_object->user_id = $row['user_id'];
+					$search_object->category = $row['category'];
+					$search_object->hash_tag = $row['hash_tag'];
+					$sql2 = "SELECT userid, username FROM ".USER_TABLE." WHERE userid = '{$row['user_id']}'";
+					$result2 = mysqli_query($conn,$sql2);
+					$row2 = mysqli_fetch_assoc($result2);
+					$search_object->user_name = $row2['username'];
+					array_push($map_search_object, $search_object);
+					$contents_count -= 1;	
+				}	
+				
+				$to_client->setFields('map_search', $map_search_object);
+				if($more>0){
+					$to_client->setFields('state', MAP_SEARCH_NO_MORE);
+				}
+				else{
+					$to_client->setFields('state', MAP_SEARCH_SUCCESS);
+				}
 			}
-			else{
-				$to_client->setFields('state', MAP_SEARCH_SUCCESS);
-			}
-		}	
+		}else{
+			$to_client->setDebugs('type error','no reserved map_search_type');
+		}
 	}
 	echo json_encode($to_client->build());
 }else{

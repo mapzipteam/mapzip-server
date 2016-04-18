@@ -15,7 +15,7 @@ if(($value['build_version'] >= BUILD_VERSION_GARNET) && ($value['build_version']
 	}
 	else{
 		// db connection success
-		$sql = "INSERT INTO ".USER_SOUND_TABLE." values(null, '{$value['userid']}', '{$value['username']}', '{$value['category']}', '{$value['contents']}', 0, now());";
+		$sql = "INSERT INTO ".USER_SOUND_TABLE." values(null, '{$value['user_id']}', '{$value['user_name']}', '{$value['category']}', '{$value['contents']}', 0, now());";
 
 		if(!mysqli_query($conn,$sql)){
 	// insert fail

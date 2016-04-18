@@ -17,7 +17,13 @@ if(($value['build_version'] >= BUILD_VERSION_GARNET) && ($value['build_version']
 //echo "connect success!\n";
 	}
 
-	$sql = "UPDATE ".REVIEW_TABLE." SET map_id = {$value['map_id']}, review_emotion = {$value['review_emotion']}, positive_text = '{$value['positive_text']}', negative_text = '{$value['negative_text']}', review_text = '{$value['review_text']}', image_num = {$value['image_num']}, modified = now() WHERE user_id = '{$value['user_id']}' and pid = {$value['store_id']}";
+	if($value['flag_type']){
+		$flag_type = $value['flag_type'];
+	}else{
+		$flag_type = REVIEW_FLAG_TYPE_DEFAULT;
+	}
+
+	$sql = "UPDATE ".REVIEW_TABLE." SET map_id = {$value['map_id']}, review_emotion = {$value['review_emotion']}, positive_text = '{$value['positive_text']}', negative_text = '{$value['negative_text']}', review_text = '{$value['review_text']}', image_num = {$value['image_num']}, modified = now(), flag_type = {$flag_type} WHERE user_id = '{$value['user_id']}' and pid = {$value['store_id']}";
 
 	if(!mysqli_query($conn,$sql)){
 		// insert fail
